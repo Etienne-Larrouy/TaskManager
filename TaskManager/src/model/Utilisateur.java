@@ -6,9 +6,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class Utilisateur
 {
+	private int id;
+	private ArrayList<Tache> lTache = new ArrayList<Tache>();
     private static int    _port;
     private static Socket _socket;
 

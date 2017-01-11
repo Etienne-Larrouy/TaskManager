@@ -1,11 +1,10 @@
-package application;
+package view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
@@ -13,7 +12,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 
 		try { 
-			AnchorPane page = (AnchorPane) FXMLLoader.load(Main.class.getResource("../TaskManager.fxml"));
+			AnchorPane page = (AnchorPane) FXMLLoader.load(Main.class.getResource("../view/TaskManager.fxml"));
 			Scene scene = new Scene(page);
 			scene.setRoot(page);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -26,7 +25,7 @@ public class Main extends Application {
 	}
 
 
-public static void main(String[] args) {
-	launch(args);
-}
+	public static void main(String[] args) {
+		launch(args);
+	}
 }

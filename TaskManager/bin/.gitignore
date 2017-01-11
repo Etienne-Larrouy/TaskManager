@@ -1,6 +1,7 @@
-/application/
+/Register.fxml
 /TaskManager.fxml
-/Server/
-/Model/
+/application/
+/controller/
 /model/
 /server/
+/view/
