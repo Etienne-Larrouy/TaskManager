@@ -58,7 +58,7 @@ public class Controller {
 		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 
 		try {
-			XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter("../../BD/users.xml"));
+			XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter("BD/users.xml"));
 
 			writer.writeStartDocument();
 			writer.writeStartElement("document");
