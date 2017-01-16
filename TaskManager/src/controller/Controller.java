@@ -14,11 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class Controller {
 	@FXML
@@ -29,6 +26,18 @@ public class Controller {
 
 	@FXML
 	private Text statusbar;
+
+	@FXML
+	private PasswordField Register_repeatPassword;
+
+	@FXML
+	private PasswordField Register_password;
+
+	@FXML
+	private PasswordField Register_username;
+	
+	@FXML
+	private PasswordField Register_statusbar;
 
 	public void handleConnect(ActionEvent event) {
 		if (username.getText().isEmpty())
@@ -55,26 +64,32 @@ public class Controller {
 	}
 
 	public void handleSignUp(ActionEvent event) {
-		XMLOutputFactory factory = XMLOutputFactory.newInstance();
 
-		try {
-			XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter("BD/users.xml"));
+		if (!Register_repeatPassword.getText().equals(Register_password)) {
+			Register_statusbar.setText("Error : Passwords don't match");
+	
+		} else {
+			XMLOutputFactory factory = XMLOutputFactory.newInstance();
 
-			writer.writeStartDocument();
-			writer.writeStartElement("document");
-			writer.writeStartElement("data");
-			writer.writeAttribute("name", "value");
-			writer.writeEndElement();
-			writer.writeEndElement();
-			writer.writeEndDocument();
+			try {
+				XMLStreamWriter writer = factory.createXMLStreamWriter(new FileWriter("BD/users.xml"));
 
-			writer.flush();
-			writer.close();
+				writer.writeStartDocument();
+				writer.writeStartElement("document");
+				writer.writeStartElement("data");
+				writer.writeAttribute("name", "value");
+				writer.writeEndElement();
+				writer.writeEndElement();
+				writer.writeEndDocument();
 
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+				writer.flush();
+				writer.close();
+
+			} catch (XMLStreamException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
