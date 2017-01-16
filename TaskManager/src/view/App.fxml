@@ -4,11 +4,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
   <columnConstraints>
@@ -18,9 +21,8 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="29.0" valignment="TOP" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="63.0" valignment="TOP" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="355.0" minHeight="10.0" prefHeight="354.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="65.0" valignment="TOP" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="383.0" minHeight="10.0" prefHeight="383.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <Label text="Task Manager" GridPane.columnIndex="1">
@@ -68,5 +70,14 @@
             <Insets top="25.0" />
          </GridPane.margin>
       </Label>
+      <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+         <children>
+            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="WHITE" height="85.0" stroke="#12a841" strokeType="INSIDE" strokeWidth="2.0" width="130.0">
+               <FlowPane.margin>
+                  <Insets left="20.0" top="20.0" />
+               </FlowPane.margin>
+            </Rectangle>
+         </children>
+      </FlowPane>
    </children>
 </GridPane>
