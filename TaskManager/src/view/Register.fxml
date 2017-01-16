@@ -91,7 +91,6 @@
             <Insets bottom="80.0" />
          </GridPane.margin>
       </Button>
-      <Text fx:id="statusbar" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <ImageView fitHeight="113.0" fitWidth="134.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets right="25.0" />
@@ -100,5 +99,10 @@
             <Image url="@../../../../photoUtilisateur.png" />
          </image>
       </ImageView>
+      <Text fx:id="Register_statusbar" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="321.13671875" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets top="50.0" />
+         </GridPane.margin>
+      </Text>
    </children>
 </GridPane>
