@@ -26,6 +26,10 @@ public class Controller {
 
 	@FXML
 	private Text statusbar;
+	
+	@FXML
+	private Text Register_statusbar;
+	
 
 	@FXML
 	private PasswordField Register_repeatPassword;
@@ -34,10 +38,9 @@ public class Controller {
 	private PasswordField Register_password;
 
 	@FXML
-	private PasswordField Register_username;
+	private TextField Register_username;
 	
-	@FXML
-	private PasswordField Register_statusbar;
+
 
 	public void handleConnect(ActionEvent event) {
 		if (username.getText().isEmpty())
@@ -77,7 +80,7 @@ public class Controller {
 				writer.writeStartDocument();
 				writer.writeStartElement("document");
 				writer.writeStartElement("data");
-				writer.writeAttribute("name", "value");
+				writer.writeAttribute("name", "test");
 				writer.writeEndElement();
 				writer.writeEndElement();
 				writer.writeEndDocument();
