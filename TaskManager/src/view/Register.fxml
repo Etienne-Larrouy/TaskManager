@@ -68,22 +68,22 @@
             <Insets left="-95.0" right="220.0" top="100.0" />
          </GridPane.margin>
       </Label>
-      <TextField fx:id="username" prefHeight="25.0" prefWidth="396.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <TextField fx:id="Register_username" prefHeight="25.0" prefWidth="396.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="100.0" left="190.0" right="25.0" />
          </GridPane.margin>
       </TextField>
-      <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <PasswordField fx:id="Register_password" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="50.0" left="190.0" right="25.0" top="55.0" />
          </GridPane.margin>
       </PasswordField>
-      <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <PasswordField fx:id="Register_repeatPassword" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="190.0" right="25.0" top="100.0" />
          </GridPane.margin>
       </PasswordField>
-      <Button mnemonicParsing="false" onAction="#handleRegister" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Button mnemonicParsing="false" onAction="#handleSignUp" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="25.0" />
          </font>
