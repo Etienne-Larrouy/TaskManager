@@ -53,10 +53,20 @@
             <Insets right="25.0" top="6.0" />
          </GridPane.margin>
       </Circle>
-      <Line endX="50.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <Line endX="35.0" fill="BLACK" strokeWidth="3.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets right="20.0" top="32.0" />
+            <Insets right="33.0" top="32.0" />
          </GridPane.margin>
       </Line>
+      <Line endY="35.0" fill="BLACK" strokeWidth="3.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets right="50.0" top="15.0" />
+         </GridPane.margin>
+      </Line>
+      <Label text="LOGO" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets top="25.0" />
+         </GridPane.margin>
+      </Label>
    </children>
 </GridPane>
