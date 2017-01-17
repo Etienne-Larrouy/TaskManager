@@ -180,13 +180,13 @@ public class Controller {
 
 	private boolean usernameAlreadyExist(Document doc, String username) {
 
-		NodeList users = doc.getElementsByTagName("user");
+		NodeList users = doc.getElementsByTagName("username");
 		int nbUsers = users.getLength();
 
 		for (int i = 0; i < nbUsers; i++) {
 			Element user = (Element) users.item(i);
-			System.out.println(user.getAttribute("username"));
-			if (user.getAttribute("username").equals(username)) {
+			System.out.println(user.getTextContent());
+			if (user.getTextContent().equals(username)) {
 				return true;
 			}
 		}
