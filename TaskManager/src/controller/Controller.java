@@ -68,8 +68,23 @@ public class Controller {
 			statusbar.setText("Error username is empty");
 		else if (password.getText().isEmpty())
 			statusbar.setText("Error password is empty");
-		else
-			statusbar.setText("Connected");
+		else{
+			// Write user and password to xml
+
+			try {
+				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder docBuilder;
+				docBuilder = docFactory.newDocumentBuilder();
+				Document doc = docBuilder.parse(new File("BD/users.xml"));
+				if(!usernameAlreadyExist(doc, username.getText())){
+					statusbar.setText("User doesn't exists");
+				}
+			} catch (ParserConfigurationException | SAXException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
 
 	}
 
