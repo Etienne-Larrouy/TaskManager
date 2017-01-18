@@ -3,15 +3,15 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
-
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="775.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Controller">
   <columnConstraints>
@@ -40,7 +40,7 @@
             <Insets top="95.0" />
          </GridPane.margin>
       </Line>
-      <TextField promptText="Search" GridPane.rowIndex="1">
+      <TextField fx:id="App_search" promptText="Search" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" top="20.0" />
          </GridPane.margin>
@@ -50,34 +50,19 @@
             <Insets bottom="30.0" top="6.0" />
          </GridPane.margin>
       </Circle>
-      <Circle fill="WHITE" radius="27.0" stroke="BLACK" strokeType="INSIDE" GridPane.columnIndex="2" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets right="25.0" top="6.0" />
-         </GridPane.margin>
-      </Circle>
-      <Line endX="35.0" fill="BLACK" strokeWidth="3.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets right="33.0" top="32.0" />
-         </GridPane.margin>
-      </Line>
-      <Line endY="35.0" fill="BLACK" strokeWidth="3.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets right="50.0" top="15.0" />
-         </GridPane.margin>
-      </Line>
       <Label text="LOGO" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets top="25.0" />
          </GridPane.margin>
       </Label>
-      <FlowPane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
-         <children>
-            <Rectangle arcHeight="35.0" arcWidth="35.0" fill="WHITE" height="85.0" stroke="#12a841" strokeType="INSIDE" strokeWidth="2.0" width="130.0">
-               <FlowPane.margin>
-                  <Insets left="20.0" top="20.0" />
-               </FlowPane.margin>
-            </Rectangle>
-         </children>
-      </FlowPane>
+      <FlowPane fx:id="App_flowPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+      <ImageView fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <image>
+            <Image url="@../image/logo_ajouter.png" />
+         </image>
+         <GridPane.margin>
+            <Insets right="10.0" top="5.0" />
+         </GridPane.margin>
+      </ImageView>
    </children>
 </GridPane>
