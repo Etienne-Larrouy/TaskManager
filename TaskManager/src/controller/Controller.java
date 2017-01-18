@@ -69,23 +69,24 @@ public class Controller {
 		else if (password.getText().isEmpty())
 			statusbar.setText("Error password is empty");
 		else{
-			// Write user and password to xml
-
+			// Verify user and password from xml
 			try {
 				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder docBuilder;
 				docBuilder = docFactory.newDocumentBuilder();
 				Document doc = docBuilder.parse(new File("BD/users.xml"));
-				if(!usernameAlreadyExist(doc, username.getText())){
-					statusbar.setText("User doesn't exists");
+				if(canConnect(doc, username.getText(), password.getText())){
+					//TODO
+					statusbar.setText("Connected");
 				}
+				else{
+					statusbar.setText("Wrong password or username");
+				}
+			
 			} catch (ParserConfigurationException | SAXException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
-
 	}
 
 	public void handleRegister(ActionEvent event) {
@@ -119,7 +120,7 @@ public class Controller {
 			// Passwords don't match
 			else if (!Register_repeatPassword.getText().equals(Register_password.getText())) {
 				Register_statusbar.setText("Error : Passwords don't match");
-			} else if (usernameAlreadyExist(doc, Register_username.getText())) {
+			} else if (getUser(doc, Register_username.getText()) != null) {
 				Register_statusbar.setText("Error : Username already exists");
 			} else {
 				Register_statusbar.setText("");
@@ -186,27 +187,63 @@ public class Controller {
 
 			}
 		} catch (ParserConfigurationException | TransformerException | IOException | SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-
 		}
 
 	}
 
-	private boolean usernameAlreadyExist(Document doc, String username) {
+	private Element getUser(Document doc, String username) {
 
-		NodeList users = doc.getElementsByTagName("username");
+		NodeList users = doc.getElementsByTagName("user");
 		int nbUsers = users.getLength();
 
 		for (int i = 0; i < nbUsers; i++) {
 			Element user = (Element) users.item(i);
-			System.out.println(user.getTextContent());
-			if (user.getTextContent().equals(username)) {
-				return true;
+
+			if (user.getElementsByTagName("username").item(0).getTextContent().equals(username)) {
+				return user;
 			}
 		}
 
-		return false;
+		return null;
+	}
+	
+	private boolean canConnect(Document doc, String username, String password) {
+		
+		Element user = getUser(doc, username);
+	
+		if(user == null){
+			return false;
+		}
+		else{
+			// Crypt password
+			// Create MessageDigest instance for MD5
+			String pw = password;
+			try {
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				// Add password bytes to digest
+				md.update(pw.getBytes());
+				// Get the hash's bytes
+				byte[] bytes = md.digest();
+				// This bytes[] has bytes in decimal format;
+				// Convert it to hexadecimal format
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < bytes.length; i++) {
+					sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+				}
+				// Get complete hashed password in hex format
+				pw = sb.toString();
+			} catch (NoSuchAlgorithmException e) {
+				e.printStackTrace();
+			}
+			
+			if(pw.equals(user.getElementsByTagName("password").item(0).getTextContent())){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
 	}
 
 	private List<Utilisateur> loadUsersFromXML() {
@@ -222,14 +259,7 @@ public class Controller {
 
 			Document doc = docBuilder.parse(new File("BD/users.xml"));
 
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
 		return listUsers;
