@@ -83,7 +83,7 @@
             <Insets left="190.0" right="25.0" top="100.0" />
          </GridPane.margin>
       </PasswordField>
-      <Button mnemonicParsing="false" onAction="#handleSignUp" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Button fx:id="Register_register" mnemonicParsing="false" onAction="#handleSignUp" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="25.0" />
          </font>

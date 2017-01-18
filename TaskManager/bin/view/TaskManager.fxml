@@ -65,17 +65,17 @@
             <Insets right="235.0" />
          </GridPane.margin>
       </Label>
-      <TextField fx:id="username" prefHeight="25.0" prefWidth="396.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <TextField fx:id="TaskManager_username" prefHeight="25.0" prefWidth="396.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="100.0" left="190.0" right="25.0" />
          </GridPane.margin>
       </TextField>
-      <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <PasswordField fx:id="TaskManager_password" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="50.0" left="190.0" right="25.0" top="55.0" />
          </GridPane.margin>
       </PasswordField>
-      <Button mnemonicParsing="false" onAction="#handleConnect" text="Connexion" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Button fx:id="TaskManager_connexion" mnemonicParsing="false" onAction="#handleConnect" text="Connexion" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets bottom="150.0" right="200.0" />
          </GridPane.margin>
@@ -83,7 +83,7 @@
             <Font size="25.0" />
          </font>
       </Button>
-      <Button mnemonicParsing="false" onAction="#handleRegister" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Button fx:id="TaskManager_register" mnemonicParsing="false" onAction="#handleRegister" text="Register" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="25.0" />
          </font>

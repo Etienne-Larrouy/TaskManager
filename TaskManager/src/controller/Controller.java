@@ -34,6 +34,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -43,10 +44,10 @@ import model.Utilisateur;
 
 public class Controller {
 	@FXML
-	private TextField username;
+	private TextField TaskManager_username; 
 
 	@FXML
-	private PasswordField password;
+	private PasswordField TaskManager_password;
 
 	@FXML
 	private Text statusbar;
@@ -63,46 +64,63 @@ public class Controller {
 	@FXML
 	private TextField Register_username;
 
+	@FXML
+	private Button TaskManager_register;
+
+	@FXML
+	private Button Register_register;
+
+	@FXML
+	private Button TaskManager_connexion;
+
+	@FXML
 	public void handleConnect(ActionEvent event) {
-		if (username.getText().isEmpty())
+		if (TaskManager_username.getText().isEmpty())
 			statusbar.setText("Error username is empty");
-		else if (password.getText().isEmpty())
+		else if (TaskManager_password.getText().isEmpty())
 			statusbar.setText("Error password is empty");
-		else{
+		else {
 			// Verify user and password from xml
 			try {
 				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 				DocumentBuilder docBuilder;
 				docBuilder = docFactory.newDocumentBuilder();
 				Document doc = docBuilder.parse(new File("BD/users.xml"));
-				if(canConnect(doc, username.getText(), password.getText())){
-					//TODO
-					statusbar.setText("Connected");
-				}
-				else{
+				if (canConnect(doc, TaskManager_username.getText(), TaskManager_password.getText())) {
+					if (event.getSource() == TaskManager_connexion) {
+						Stage stage = null;
+						Parent root = null;
+						stage = (Stage) TaskManager_connexion.getScene().getWindow();
+						root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
+						Scene scene = new Scene(root);
+						stage.setScene(scene);
+						stage.show();
+					}
+				} else {
 					statusbar.setText("Wrong password or username");
 				}
-			
+
 			} catch (ParserConfigurationException | SAXException | IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void handleRegister(ActionEvent event) {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/Register.fxml"));
-			Parent root1 = (Parent) fxmlLoader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(root1));
-
+	@FXML
+	public void handleRegister(ActionEvent event) throws IOException {
+		if (event.getSource() == TaskManager_register) {
+			Stage stage = null;
+			Parent root = null;
+			stage = (Stage) TaskManager_register.getScene().getWindow();
+			root = FXMLLoader.load(getClass().getResource("../view/Register.fxml"));
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
 			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 	}
 
+	@FXML
 	public void handleSignUp(ActionEvent event) {
 		try {
 			// Write user and password to xml
@@ -125,10 +143,6 @@ public class Controller {
 			} else {
 				Register_statusbar.setText("");
 
-
-				/*
-				 * Document doc = docBuilder.newDocument();
-				 */
 				Element rootElement = null;
 				NodeList nodelist = doc.getElementsByTagName("users");
 
@@ -183,13 +197,19 @@ public class Controller {
 				StreamResult result = new StreamResult(new File("BD/users.xml"));
 				transformer.transform(source, result);
 
-
-
+				if (event.getSource() == Register_register) {
+					Stage stage = null;
+					Parent root = null;
+					stage = (Stage) Register_register.getScene().getWindow();
+					root = FXMLLoader.load(getClass().getResource("../view/TaskManager.fxml"));
+					Scene scene = new Scene(root);
+					stage.setScene(scene);
+					stage.show();
+				}
 			}
 		} catch (ParserConfigurationException | TransformerException | IOException | SAXException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private Element getUser(Document doc, String username) {
@@ -207,15 +227,14 @@ public class Controller {
 
 		return null;
 	}
-	
+
 	private boolean canConnect(Document doc, String username, String password) {
-		
+
 		Element user = getUser(doc, username);
-	
-		if(user == null){
+
+		if (user == null) {
 			return false;
-		}
-		else{
+		} else {
 			// Crypt password
 			// Create MessageDigest instance for MD5
 			String pw = password;
@@ -236,33 +255,25 @@ public class Controller {
 			} catch (NoSuchAlgorithmException e) {
 				e.printStackTrace();
 			}
-			
-			if(pw.equals(user.getElementsByTagName("password").item(0).getTextContent())){
+			if (pw.equals(user.getElementsByTagName("password").item(0).getTextContent())) {
 				return true;
-			}
-			else{
+			} else {
 				return false;
 			}
 		}
 	}
 
 	private List<Utilisateur> loadUsersFromXML() {
-
 		ArrayList<Utilisateur> listUsers = new ArrayList<Utilisateur>();
-
 		try {
 			// Open document
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder;
-
 			docBuilder = docFactory.newDocumentBuilder();
-
 			Document doc = docBuilder.parse(new File("BD/users.xml"));
-
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
 		return listUsers;
 	}
-
 }
