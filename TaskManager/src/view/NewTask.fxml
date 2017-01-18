@@ -102,7 +102,6 @@
                   <Font size="40.0" />
                </font>
             </Button>
-            <TextField fx:id="NewTask_author" layoutX="96.0" layoutY="118.0" />
             <DatePicker fx:id="NewTask_creationDate" layoutX="158.0" layoutY="162.0" />
             <MenuButton fx:id="NewTask_priority" layoutX="99.0" layoutY="194.0" mnemonicParsing="false" text="Priority">
               <items>
@@ -116,6 +115,12 @@
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
               </items>
+            </MenuButton>
+            <MenuButton fx:id="NewTask_author" layoutX="95.0" layoutY="118.0" mnemonicParsing="false" text="Author">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Action 1" />
+                  <MenuItem mnemonicParsing="false" text="Action 2" />
+               </items>
             </MenuButton>
          </children>
       </AnchorPane>
