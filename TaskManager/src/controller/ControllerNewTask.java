@@ -52,8 +52,10 @@ public class ControllerNewTask implements Initializable {
 		// TODO Auto-generated method stub
 		s = Server.getInstance();
 		
-		((ComboBox<String>)NewTask_Pane.getChildren().get(3)).getItems().addAll("Aest", "Aest", "Aest", "Aest", "Aest", "Aest", "Aest", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test");
-		((ComboBox<String>)NewTask_Pane.getChildren().get(12)).getItems().add("Test");
+		//Add users to choices
+		for(User u : s.getObservableListUsers()){
+			((ComboBox<String>)NewTask_Pane.getChildren().get(10)).getItems().add(u.getUsername());
+		}
 		
 		
 	}
