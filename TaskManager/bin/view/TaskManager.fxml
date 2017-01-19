@@ -25,7 +25,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label prefHeight="149.0" prefWidth="325.0" text="Task Manager" GridPane.columnIndex="1">
+      <Label alignment="CENTER" prefHeight="149.0" prefWidth="325.0" text="Task Manager" GridPane.columnIndex="1" GridPane.halignment="CENTER">
          <font>
             <Font size="50.0" />
          </font>
@@ -91,7 +91,10 @@
             <Insets bottom="150.0" left="200.0" />
          </GridPane.margin>
       </Button>
-      <Text fx:id="statusbar" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <Text fx:id="statusbar" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="328.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <font>
+            <Font size="20.0" />
+         </font></Text>
       <Hyperlink text="Mot de passe oublié" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <font>
             <Font size="9.0" />
