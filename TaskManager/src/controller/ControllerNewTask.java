@@ -11,11 +11,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Tache;
-import model.Utilisateur;
+import model.Task;
+import model.User;
 import server.Server;
 
 public class ControllerNewTask implements Initializable {
@@ -25,7 +25,8 @@ public class ControllerNewTask implements Initializable {
 	@FXML
 	private Button NewTask_createTask;
 
-	
+	@FXML
+	private AnchorPane NewTask_Pane;
 
 	@FXML
 	public void createTask(ActionEvent event) throws IOException {
@@ -40,16 +41,21 @@ public class ControllerNewTask implements Initializable {
 			stage.show();
 		}
 
-		Utilisateur owner = new Utilisateur("Roger RABBIT");
-		Utilisateur performer = new Utilisateur("Clément CHOLLET");
-		Tache t1 = new Tache("Titre", "Description", owner, performer, "En Cours", "12/02/2016");
-		s.addTache(t1);
+		User owner = new User("Roger RABBIT");
+		User performer = new User("Clément CHOLLET");
+		Task t1 = new Task("Titre", "Description", owner, performer, "En Cours", "12/02/2016");
+		s.addTask(t1);
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		s = Server.getInstance();
+		
+		((ComboBox<String>)NewTask_Pane.getChildren().get(3)).getItems().addAll("Aest", "Aest", "Aest", "Aest", "Aest", "Aest", "Aest", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test", "Test");
+		((ComboBox<String>)NewTask_Pane.getChildren().get(12)).getItems().add("Test");
+		
+		
 	}
 
 }

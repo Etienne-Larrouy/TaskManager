@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Utilisateur
+public class User
 {
 	private int id;
-	private ArrayList<Tache> lTache = new ArrayList<Tache>();
+	private ArrayList<Task> lTache = new ArrayList<Task>();
 	private StringProperty username = new SimpleStringProperty(); 
 	
-	public Utilisateur(String username){
+	public User(String username){
 		this.username.set(username);
 	}
 	/* Getters and setters*/

@@ -5,14 +5,21 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Tache;
+import model.Task;
+import model.User;
 
 public final class Server{
 	
-	private List<Tache> lTache = new ArrayList<Tache>();
+	private List<Task> lTache = new ArrayList<Task>();
 
 	// Now add observability by wrapping it with ObservableList.
-	private ObservableList<Tache> observableListTaches = FXCollections.observableList(lTache);
+	private ObservableList<Task> observableListTaches = FXCollections.observableList(lTache);
+
+	
+	private List<User> lUsers = new ArrayList<User>();
+	
+	// Now add observability by wrapping it with ObservableList.
+	private ObservableList<User> observableListUsers = FXCollections.observableList(lUsers);
 
 	private final static Server serverInstance = new Server();
 
@@ -21,11 +28,20 @@ public final class Server{
 	}
 
 	// Add keyword to the observable map
-	public void addTache(Tache n) {
-		this.observableListTaches.add(n);
+	public void addTask(Task t) {
+		this.observableListTaches.add(t);
 	}
 
-	public ObservableList<Tache> getObservableList() {
+	public ObservableList<Task> getObservableListTasks() {
 		return observableListTaches;
+	}
+	
+	// Add keyword to the observable map
+	public void addUser(User s) {
+		this.observableListUsers.add(s);
+	}
+
+	public ObservableList<User> getObservableListUsers() {
+		return observableListUsers;
 	}
 }

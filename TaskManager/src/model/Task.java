@@ -9,17 +9,17 @@ import java.util.Date;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Tache {
+public class Task {
 	private StringProperty title = new SimpleStringProperty();
 	private StringProperty description = new SimpleStringProperty();
 	private StringProperty state = new SimpleStringProperty();
 	private StringProperty deadLine = new SimpleStringProperty();
 	private int priorite;
 
-	private Utilisateur owner;
-	private Utilisateur performer;
+	private User owner;
+	private User performer;
 
-	public Tache(String title, String description, Utilisateur owner, Utilisateur performer, String state,
+	public Task(String title, String description, User owner, User performer, String state,
 			String deadLine) {
 		this.setDescription(description);
 		this.setTitle(title);
@@ -34,20 +34,20 @@ public class Tache {
 	/* Getters and setters */
 
 	// Owner
-	public Utilisateur getOwner() {
+	public User getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Utilisateur owner) {
+	public void setOwner(User owner) {
 		this.owner = owner;
 	}
 
 	// Performer
-	public Utilisateur getPerformer() {
+	public User getPerformer() {
 		return performer;
 	}
 
-	public void setPerformer(Utilisateur performer) {
+	public void setPerformer(User performer) {
 		this.performer = performer;
 	}
 

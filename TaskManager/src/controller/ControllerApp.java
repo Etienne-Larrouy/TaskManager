@@ -16,7 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import model.Tache;
+import model.Task;
 import server.Server;
 
 public class ControllerApp implements Initializable{
@@ -47,7 +47,7 @@ public class ControllerApp implements Initializable{
 		s = Server.getInstance();
 		
 		//Add existing tasks
-		for (Tache t : s.getObservableList()) {
+		for (Task t : s.getObservableListTasks()) {
 			try {
 
 				GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
@@ -75,13 +75,13 @@ public class ControllerApp implements Initializable{
 			}
 		}
 		
-		s.getObservableList().addListener((ListChangeListener<Tache>) change -> {
+		s.getObservableListTasks().addListener((ListChangeListener<Task>) change -> {
 			if(App_flowPane!=null) {
 				while (change.next()) {
 					// for (Note remitem : change.getRemoved()) {
 					// System.out.println("suppr");
 					// }
-					for (Tache t : change.getAddedSubList()) {
+					for (Task t : change.getAddedSubList()) {
 						try {
 
 							GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));

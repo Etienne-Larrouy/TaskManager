@@ -40,8 +40,8 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.Tache;
-import model.Utilisateur;
+import model.Task;
+import model.User;
 import server.Server;
 
 public class Controller implements Initializable {
@@ -169,8 +169,8 @@ public class Controller implements Initializable {
 
 	
 
-	private List<Utilisateur> loadUsersFromXML() {
-		ArrayList<Utilisateur> listUsers = new ArrayList<Utilisateur>();
+	private List<User> loadUsersFromXML() {
+		ArrayList<User> listUsers = new ArrayList<User>();
 		try {
 			// Open document
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
