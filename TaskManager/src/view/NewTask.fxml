@@ -73,24 +73,24 @@
                   <Font size="15.0" />
                </font>
             </Text>
+            <ComboBox fx:id="NewTask_priority" layoutX="97.0" layoutY="171.0" prefWidth="150.0" visibleRowCount="3" />
             <Text layoutX="30.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deadline :">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
             <DatePicker fx:id="NewTask_deadline" layoutX="107.0" layoutY="214.0" />
-            <Button fx:id="NewTask_createTask" layoutX="449.0" layoutY="174.0" mnemonicParsing="false" onAction="#createTask" text="Create">
-               <font>
-                  <Font size="40.0" />
-               </font>
-            </Button>
             <Text layoutX="28.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Assign to :">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <ComboBox fx:id="NewTask_priority" layoutX="97.0" layoutY="171.0" prefWidth="150.0" visibleRowCount="3" />
             <ComboBox fx:id="NewTask_performer" layoutX="107.0" layoutY="261.0" prefWidth="150.0" visibleRowCount="3" />
+            <Button fx:id="NewTask_createTask" layoutX="496.0" layoutY="218.0" mnemonicParsing="false" onAction="#createTask" text="Create">
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
       <ImageView fitHeight="61.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
