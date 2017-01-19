@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -67,7 +68,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <ComboBox fx:id="NewTask_author" layoutX="94.0" layoutY="118.0" prefWidth="150.0" visibleRowCount="3" />
+            <ChoiceBox layoutX="107.0" layoutY="118.0" prefWidth="150.0" />
             <Text layoutX="30.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of creation : ">
                <font>
                   <Font size="15.0" />
