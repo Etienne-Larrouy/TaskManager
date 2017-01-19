@@ -62,41 +62,35 @@
                </font>
             </Text>
             <TextArea fx:id="NewTask_description" layoutX="129.0" layoutY="35.0" prefHeight="66.0" prefWidth="348.0" />
-            <Text layoutX="30.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author :">
+            <Text layoutX="29.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of creation : ">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <ComboBox fx:id="NewTask_author" layoutX="94.0" layoutY="118.0" prefWidth="150.0" visibleRowCount="3" />
-            <Text layoutX="30.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of creation : ">
+            <DatePicker fx:id="NewTask_creationDate" layoutX="157.0" layoutY="126.0" />
+            <Text layoutX="29.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priority :">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <DatePicker fx:id="NewTask_creationDate" layoutX="158.0" layoutY="162.0" />
-            <Text layoutX="30.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priority :">
+            <Text layoutX="30.0" layoutY="233.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deadline :">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <Text layoutX="31.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Deadline :">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
-            <DatePicker fx:id="NewTask_deadline" layoutX="107.0" layoutY="236.0" />
+            <DatePicker fx:id="NewTask_deadline" layoutX="107.0" layoutY="214.0" />
             <Button fx:id="NewTask_createTask" layoutX="449.0" layoutY="174.0" mnemonicParsing="false" onAction="#createTask" text="Create">
                <font>
                   <Font size="40.0" />
                </font>
             </Button>
-            <Text layoutX="29.0" layoutY="292.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Assign to :">
+            <Text layoutX="28.0" layoutY="279.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Assign to :">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <ComboBox fx:id="NewTask_priority" layoutX="94.0" layoutY="194.0" prefWidth="150.0" visibleRowCount="3" />
-            <ComboBox fx:id="NewTask_performer" layoutX="107.0" layoutY="273.0" prefWidth="150.0" />
+            <ComboBox fx:id="NewTask_priority" layoutX="97.0" layoutY="171.0" prefWidth="150.0" visibleRowCount="3" />
+            <ComboBox fx:id="NewTask_performer" layoutX="107.0" layoutY="261.0" prefWidth="150.0" visibleRowCount="3" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="61.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
