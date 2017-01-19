@@ -30,7 +30,7 @@
    <children>
       <Label text="Task Manager" GridPane.columnIndex="1">
          <font>
-            <Font size="20.0" />
+            <Font name="Palatino Linotype" size="20.0" />
          </font>
       </Label>
       <Line startX="850.0" GridPane.columnIndex="1">
@@ -53,10 +53,13 @@
             <Insets top="25.0" />
          </GridPane.margin>
       </Label>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name :" GridPane.rowIndex="1">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name :" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
-            <Insets left="5.0" top="25.0" />
+            <Insets left="5.0" />
          </GridPane.margin>
+         <font>
+            <Font size="25.0" />
+         </font>
       </Text>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
          <children>

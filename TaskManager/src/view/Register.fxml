@@ -28,7 +28,7 @@
    <children>
       <Label prefHeight="149.0" prefWidth="325.0" text="Task Manager" GridPane.columnIndex="1">
          <font>
-            <Font size="50.0" />
+            <Font name="Palatino Linotype" size="50.0" />
          </font>
          <padding>
             <Insets top="25.0" />
