@@ -7,13 +7,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Tache;
 
-public class Server
-{
+public final class Server{
+	
 	private List<Tache> lTache = new ArrayList<Tache>();
 
 	// Now add observability by wrapping it with ObservableList.
-	ObservableList<Tache> observableListTaches = FXCollections.observableList(lTache);
+	private ObservableList<Tache> observableListTaches = FXCollections.observableList(lTache);
 
+	private final static Server serverInstance = new Server();
+
+	public static Server getInstance() {
+		return serverInstance;
+	}
 
 	// Add keyword to the observable map
 	public void addTache(Tache n) {

@@ -19,7 +19,7 @@ import model.Utilisateur;
 import server.Server;
 
 public class ControllerNewTask implements Initializable {
-	private Server s = new Server();
+	private Server s;
 
 
 	@FXML
@@ -49,7 +49,7 @@ public class ControllerNewTask implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-
+		s = Server.getInstance();
 	}
 
 }

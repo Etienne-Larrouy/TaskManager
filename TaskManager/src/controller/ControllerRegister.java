@@ -32,8 +32,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import server.Server;
 
 public class ControllerRegister implements Initializable{
+	private Server s;
 	@FXML
 	private Text Register_statusbar;
 
@@ -53,7 +55,8 @@ public class ControllerRegister implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		System.out.println("lol");
+		 s = Server.getInstance();
+
 	}
 	
 	private Element getUser(Document doc, String username) {

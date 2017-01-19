@@ -46,7 +46,7 @@ import server.Server;
 
 public class Controller implements Initializable {
 
-	private Server s = new Server();
+	private Server s;
 	@FXML
 	private TextField TaskManager_username;
 
@@ -82,7 +82,9 @@ public class Controller implements Initializable {
 						Parent root = null;
 						stage = (Stage) TaskManager_connexion.getScene().getWindow();
 						root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
+						
 						Scene scene = new Scene(root);
+					
 						stage.setScene(scene);
 						stage.show();
 					}
@@ -183,6 +185,7 @@ public class Controller implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		s = Server.getInstance();
 		// TODO Auto-generated method stub
 		
 	}
