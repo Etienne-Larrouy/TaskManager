@@ -56,7 +56,7 @@
          </GridPane.margin>
       </Label>
       <FlowPane fx:id="App_flowPane" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
-      <ImageView fx:id="App_add" fitHeight="56.0" fitWidth="56.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <ImageView fx:id="App_add" fitHeight="56.0" fitWidth="56.0" onMouseClicked="#addTask" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <image>
             <Image url="@../image/logo_ajouter.png" />
          </image>

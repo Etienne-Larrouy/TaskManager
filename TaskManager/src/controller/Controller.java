@@ -34,6 +34,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -43,6 +44,8 @@ import model.Utilisateur;
 import server.Server;
 
 public class Controller implements Initializable{
+	
+	private Server s = new Server();
 	@FXML
 	private TextField TaskManager_username; 
 
@@ -109,6 +112,12 @@ public class Controller implements Initializable{
 		}
 	}
 
+	@FXML
+	public void addTask(MouseEvent event) throws IOException {
+		Tache t1 = new Tache("Titre", "Description");
+		s.addTache(t1);
+	}
+	
 	@FXML
 	public void handleRegister(ActionEvent event) throws IOException {
 		if (event.getSource() == TaskManager_register) {
@@ -269,7 +278,7 @@ public class Controller implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		Server s = new Server();
+		
 
 		s.getObservableList().addListener((ListChangeListener<Tache>) change ->{
 			while(change.next()){
@@ -281,12 +290,12 @@ public class Controller implements Initializable{
      					
      					GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
      					
-     					((Label)note.getChildren().get(1)).setText(t.getTexte());
-     					((Label)note.getChildren().get(0)).setText(t.getTitle());
+     					((Label)tache.getChildren().get(1)).setText(t.getDescription());
+     					((Label)tache.getChildren().get(0)).setText(t.getTitle());
      				
-     					t.getTexteProperty().bindBidirectional(((Label)note.getChildren().get(1)).textProperty());
-     					t.getTitleProperty().bindBidirectional(((Label)note.getChildren().get(0)).textProperty());
-
+     					t.getDescriptionProperty().bindBidirectional(((Label)tache.getChildren().get(1)).textProperty());
+     					t.getTitleProperty().bindBidirectional(((Label)tache.getChildren().get(0)).textProperty());
+     					
      					App_flowPane.getChildren().add(tache);
      				} catch (IOException e) {
      					e.printStackTrace();
