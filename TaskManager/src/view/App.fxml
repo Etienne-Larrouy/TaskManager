@@ -36,11 +36,6 @@
             <Insets top="30.0" />
          </GridPane.margin>
       </Line>
-      <Line endX="100.0" startX="875.0">
-         <GridPane.margin>
-            <Insets top="95.0" />
-         </GridPane.margin>
-      </Line>
       <TextField fx:id="App_search" promptText="Search" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" top="20.0" />
