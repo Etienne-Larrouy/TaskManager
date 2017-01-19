@@ -67,7 +67,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <ComboBox fx:id="NewTask_author" layoutX="94.0" layoutY="118.0" prefWidth="150.0" />
+            <ComboBox fx:id="NewTask_author" layoutX="94.0" layoutY="118.0" prefWidth="150.0" visibleRowCount="3" />
             <Text layoutX="30.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of creation : ">
                <font>
                   <Font size="15.0" />
@@ -95,7 +95,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <ComboBox fx:id="NewTask_priority" layoutX="94.0" layoutY="194.0" prefWidth="150.0" />
+            <ComboBox fx:id="NewTask_priority" layoutX="94.0" layoutY="194.0" prefWidth="150.0" visibleRowCount="3" />
             <ComboBox fx:id="NewTask_performer" layoutX="107.0" layoutY="273.0" prefWidth="150.0" />
          </children>
       </AnchorPane>
