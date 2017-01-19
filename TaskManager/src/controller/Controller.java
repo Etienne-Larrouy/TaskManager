@@ -44,11 +44,11 @@ import model.Tache;
 import model.Utilisateur;
 import server.Server;
 
-public class Controller implements Initializable{
-	
+public class Controller implements Initializable {
+
 	private Server s = new Server();
 	@FXML
-	private TextField TaskManager_username; 
+	private TextField TaskManager_username;
 
 	@FXML
 	private PasswordField TaskManager_password;
@@ -76,13 +76,13 @@ public class Controller implements Initializable{
 
 	@FXML
 	private Button TaskManager_connexion;
-	
+
 	@FXML
 	private FlowPane App_flowPane;
-	
-	@FXML 
+
+	@FXML
 	private ImageView App_add;
-	
+
 	@FXML
 	private Button NewTask_createTask;
 
@@ -125,7 +125,7 @@ public class Controller implements Initializable{
 		Utilisateur performer = new Utilisateur("Clément CHOLLET");
 		Tache t1 = new Tache("Titre", "Description", owner, performer, "En Cours", "12/02/2016");
 		s.addTache(t1);
-		
+
 		if (event.getSource() == NewTask_createTask) {
 			Stage stage = null;
 			Parent root = null;
@@ -136,7 +136,7 @@ public class Controller implements Initializable{
 			stage.show();
 		}
 	}
-	
+
 	@FXML
 	public void createNewTask(MouseEvent event) throws IOException {
 		if (event.getSource() == App_add) {
@@ -149,9 +149,7 @@ public class Controller implements Initializable{
 			stage.show();
 		}
 	}
-	
-	
-	
+
 	@FXML
 	public void handleRegister(ActionEvent event) throws IOException {
 		if (event.getSource() == TaskManager_register) {
@@ -260,15 +258,14 @@ public class Controller implements Initializable{
 
 	private Element getUser(Document doc, String username) {
 
-		//get all user nodes
+		// get all user nodes
 		NodeList users = doc.getElementsByTagName("user");
 		int nbUsers = users.getLength();
 
-		
 		for (int i = 0; i < nbUsers; i++) {
 			Element user = (Element) users.item(i);
 
-			//return user if username match
+			// return user if username match
 			if (user.getElementsByTagName("username").item(0).getTextContent().equals(username)) {
 				return user;
 			}
@@ -311,43 +308,43 @@ public class Controller implements Initializable{
 			}
 		}
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		
-		
 
-		s.getObservableList().addListener((ListChangeListener<Tache>) change ->{
-			while(change.next()){
-//				 for (Note remitem : change.getRemoved()) {
-//					 System.out.println("suppr");
-//                 }
-                 for (Tache t : change.getAddedSubList()) {
-                     try {
-     					
-     					GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
-     
-     					//Set text to labels
-     					((Label)tache.getChildren().get(0)).setText(t.getTitle());
-     					((Label)tache.getChildren().get(1)).setText(t.getOwner().getUsername());
-     					((Label)tache.getChildren().get(2)).setText(t.getState());
-     					((Label)tache.getChildren().get(3)).setText(t.getDeadline());
-     					((Label)tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
-     				
-     					//Bind label to model
-     					t.getOwner().getUsernameProperty().bindBidirectional(((Label)tache.getChildren().get(4)).textProperty());
-     					t.getPerformer().getUsernameProperty().bindBidirectional(((Label)tache.getChildren().get(3)).textProperty());
-     					t.getDeadLineProperty().bindBidirectional(((Label)tache.getChildren().get(2)).textProperty());
-     					t.getStateProperty().bindBidirectional(((Label)tache.getChildren().get(1)).textProperty());
-     					t.getTitleProperty().bindBidirectional(((Label)tache.getChildren().get(0)).textProperty());
-     					
-     					//Add task to FlowPanel
-     					App_flowPane.getChildren().add(tache);
-     				} catch (IOException e) {
-     					e.printStackTrace();
-     				}
-                 }
-				
+		s.getObservableList().addListener((ListChangeListener<Tache>) change -> {
+			while (change.next()) {
+				// for (Note remitem : change.getRemoved()) {
+				// System.out.println("suppr");
+				// }
+				for (Tache t : change.getAddedSubList()) {
+					try {
+
+						GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
+
+						// Set text to labels
+						((Label) tache.getChildren().get(0)).setText(t.getTitle());
+						((Label) tache.getChildren().get(1)).setText(t.getOwner().getUsername());
+						((Label) tache.getChildren().get(2)).setText(t.getState());
+						((Label) tache.getChildren().get(3)).setText(t.getDeadline());
+						((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
+
+						// Bind label to model
+						t.getOwner().getUsernameProperty()
+								.bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
+						t.getPerformer().getUsernameProperty()
+								.bindBidirectional(((Label) tache.getChildren().get(3)).textProperty());
+						t.getDeadLineProperty().bindBidirectional(((Label) tache.getChildren().get(2)).textProperty());
+						t.getStateProperty().bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
+						t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
+
+						// Add task to FlowPanel
+						App_flowPane.getChildren().add(tache);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+
 			}
 		});
 	}
