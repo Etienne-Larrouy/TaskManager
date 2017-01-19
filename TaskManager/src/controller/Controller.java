@@ -34,6 +34,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -78,6 +79,12 @@ public class Controller implements Initializable{
 	
 	@FXML
 	private FlowPane App_flowPane;
+	
+	@FXML 
+	private ImageView App_add;
+	
+	@FXML
+	private Button NewTask_createTask;
 
 	@FXML
 	public void handleConnect(ActionEvent event) {
@@ -113,12 +120,37 @@ public class Controller implements Initializable{
 	}
 
 	@FXML
-	public void addTask(MouseEvent event) throws IOException {
+	public void createTask(ActionEvent event) throws IOException {
 		Utilisateur owner = new Utilisateur("Roger RABBIT");
 		Utilisateur performer = new Utilisateur("Clément CHOLLET");
 		Tache t1 = new Tache("Titre", "Description", owner, performer, "En Cours", "12/02/2016");
 		s.addTache(t1);
+		
+		if (event.getSource() == NewTask_createTask) {
+			Stage stage = null;
+			Parent root = null;
+			stage = (Stage) NewTask_createTask.getScene().getWindow();
+			root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
 	}
+	
+	@FXML
+	public void createNewTask(MouseEvent event) throws IOException {
+		if (event.getSource() == App_add) {
+			Stage stage = null;
+			Parent root = null;
+			stage = (Stage) App_add.getScene().getWindow();
+			root = FXMLLoader.load(getClass().getResource("../view/NewTask.fxml"));
+			Scene scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
+	}
+	
+	
 	
 	@FXML
 	public void handleRegister(ActionEvent event) throws IOException {

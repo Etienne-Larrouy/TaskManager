@@ -97,7 +97,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <Button fx:id="NewTask_createTask" layoutX="449.0" layoutY="174.0" mnemonicParsing="false" text="Create">
+            <Button fx:id="NewTask_createTask" layoutX="449.0" layoutY="174.0" mnemonicParsing="false" onAction="#createTask" text="Create">
                <font>
                   <Font size="40.0" />
                </font>
