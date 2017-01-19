@@ -28,7 +28,7 @@
    <children>
       <Label alignment="CENTER" prefHeight="98.0" prefWidth="363.0" styleClass="Title" text="Task Manager" GridPane.columnIndex="1" GridPane.halignment="CENTER">
          <font>
-            <Font name="System Bold Italic" size="45.0" />
+            <Font name="Palatino Linotype Bold Italic" size="45.0" />
          </font>
          <padding>
             <Insets top="25.0" />

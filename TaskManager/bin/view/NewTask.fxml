@@ -32,7 +32,7 @@
    <children>
       <Label text="Task Manager" GridPane.columnIndex="1">
          <font>
-            <Font size="20.0" />
+            <Font name="Palatino Linotype" size="20.0" />
          </font>
       </Label>
       <Line endX="100.0" startX="875.0" GridPane.columnIndex="1">
@@ -68,7 +68,7 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <MenuButton fx:id="NewTask_author" layoutX="95.0" layoutY="118.0" mnemonicParsing="false" text="Author" />
+            <MenuButton fx:id="NewTask_author" layoutX="95.0" layoutY="118.0" mnemonicParsing="false" />
             <Text layoutX="30.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of creation : ">
                <font>
                   <Font size="15.0" />
@@ -103,13 +103,16 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <MenuButton fx:id="NewTask_performer" layoutX="109.0" layoutY="273.0" mnemonicParsing="false" text="Performer" />
+            <MenuButton fx:id="NewTask_performer" layoutX="109.0" layoutY="273.0" mnemonicParsing="false" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="61.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <image>
             <Image url="@../image/Logoensim.gif" />
          </image>
+         <GridPane.margin>
+            <Insets top="5.0" />
+         </GridPane.margin>
       </ImageView>
    </children>
 </GridPane>
