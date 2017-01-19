@@ -1,52 +1,26 @@
 package server;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.io.OutputStream;
-import java.net.Socket;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Tache;
 
 public class Server
 {
-    private static String        _message = "Hello I'm your server.";
-    private static int           _port;
-    private static ServerSocket  _socket;
+	private List<Tache> lTache= new ArrayList<Tache>();
 
-    public static void main(String[] args)
-    {
-        try
-        {
-            _port   = (args.length == 1) ? Integer.parseInt(args[0]) : 8080;
-            _socket = new ServerSocket(_port);
+	// Now add observability by wrapping it with ObservableList.
+	ObservableList<Tache> observableListTaches = FXCollections.observableList(lTache);
 
-            System.out.println("TCP server is running on " + _port + "...");
 
-            while (true)
-            {
-                // Accept new TCP client
-                Socket client       = _socket.accept();
-                // Open output stream
-                OutputStream output = client.getOutputStream();
+	// Add keyword to the observable map
+	public void addTache(Tache n) {
+		this.observableListTaches.add(n);
+	}
 
-                System.out.println("New client, address " + client.getInetAddress() + " on " + client.getPort() + ".");
-
-                // Write the message and close the connection
-                output.write(_message.getBytes());
-                client.close();
-            }
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        finally
-        {
-            try
-            {
-                _socket.close();
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
+	public ObservableList<Tache> getObservableList() {
+		return observableListTaches;
+	}
 }

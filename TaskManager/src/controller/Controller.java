@@ -1,48 +1,48 @@
 package controller;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import model.Tache;
 import model.Utilisateur;
+import server.Server;
 
-public class Controller {
+public class Controller implements Initializable{
 	@FXML
 	private TextField TaskManager_username; 
 
@@ -72,6 +72,9 @@ public class Controller {
 
 	@FXML
 	private Button TaskManager_connexion;
+	
+	@FXML
+	private FlowPane App_flowPane;
 
 	@FXML
 	public void handleConnect(ActionEvent event) {
@@ -261,6 +264,37 @@ public class Controller {
 				return false;
 			}
 		}
+	}
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		
+		Server s = new Server();
+
+		s.getObservableList().addListener((ListChangeListener<Tache>) change ->{
+			while(change.next()){
+//				 for (Note remitem : change.getRemoved()) {
+//					 System.out.println("suppr");
+//                 }
+                 for (Tache t : change.getAddedSubList()) {
+                     try {
+     					
+     					GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
+     					
+     					((Label)note.getChildren().get(1)).setText(t.getTexte());
+     					((Label)note.getChildren().get(0)).setText(t.getTitle());
+     				
+     					t.getTexteProperty().bindBidirectional(((Label)note.getChildren().get(1)).textProperty());
+     					t.getTitleProperty().bindBidirectional(((Label)note.getChildren().get(0)).textProperty());
+
+     					App_flowPane.getChildren().add(tache);
+     				} catch (IOException e) {
+     					e.printStackTrace();
+     				}
+                 }
+				
+			}
+		});
 	}
 
 	private List<Utilisateur> loadUsersFromXML() {
