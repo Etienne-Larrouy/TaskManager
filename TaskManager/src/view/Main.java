@@ -15,7 +15,6 @@ public class Main extends Application {
 			GridPane page = (GridPane) FXMLLoader.load(Main.class.getResource("../view/TaskManager.fxml"));
 			Scene scene = new Scene(page);
 			scene.setRoot(page);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("TaskManager");
 			primaryStage.setResizable(false);

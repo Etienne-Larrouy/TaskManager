@@ -57,35 +57,12 @@ public class Controller implements Initializable {
 	private Text statusbar;
 
 	@FXML
-	private Text Register_statusbar;
+	private Button TaskManager_connexion;
 
-	@FXML
-	private PasswordField Register_repeatPassword;
-
-	@FXML
-	private PasswordField Register_password;
-
-	@FXML
-	private TextField Register_username;
 
 	@FXML
 	private Button TaskManager_register;
-
-	@FXML
-	private Button Register_register;
-
-	@FXML
-	private Button TaskManager_connexion;
-
-	@FXML
-	private FlowPane App_flowPane;
-
-	@FXML
-	private ImageView App_add;
-
-	@FXML
-	private Button NewTask_createTask;
-
+	
 	@FXML
 	public void handleConnect(ActionEvent event) {
 		if (TaskManager_username.getText().isEmpty())
@@ -119,36 +96,7 @@ public class Controller implements Initializable {
 		}
 	}
 
-	@FXML
-	public void createTask(ActionEvent event) throws IOException {
-		Utilisateur owner = new Utilisateur("Roger RABBIT");
-		Utilisateur performer = new Utilisateur("Clément CHOLLET");
-		Tache t1 = new Tache("Titre", "Description", owner, performer, "En Cours", "12/02/2016");
-		s.addTache(t1);
 
-		if (event.getSource() == NewTask_createTask) {
-			Stage stage = null;
-			Parent root = null;
-			stage = (Stage) NewTask_createTask.getScene().getWindow();
-			root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		}
-	}
-
-	@FXML
-	public void createNewTask(MouseEvent event) throws IOException {
-		if (event.getSource() == App_add) {
-			Stage stage = null;
-			Parent root = null;
-			stage = (Stage) App_add.getScene().getWindow();
-			root = FXMLLoader.load(getClass().getResource("../view/NewTask.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
-		}
-	}
 
 	@FXML
 	public void handleRegister(ActionEvent event) throws IOException {
@@ -162,98 +110,6 @@ public class Controller implements Initializable {
 			stage.show();
 		}
 
-	}
-
-	@FXML
-	public void handleSignUp(ActionEvent event) {
-		try {
-			// Write user and password to xml
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(new File("BD/users.xml"));
-			// Username empty
-			if (Register_username.getText().isEmpty()) {
-				Register_statusbar.setText("Error : Username is empty");
-			}
-			// Password empty
-			else if (Register_repeatPassword.getText().isEmpty()) {
-				Register_statusbar.setText("Error : Password empty");
-			}
-			// Passwords don't match
-			else if (!Register_repeatPassword.getText().equals(Register_password.getText())) {
-				Register_statusbar.setText("Error : Passwords don't match");
-			} else if (getUser(doc, Register_username.getText()) != null) {
-				Register_statusbar.setText("Error : Username already exists");
-			} else {
-				Register_statusbar.setText("");
-
-				Element rootElement = null;
-				NodeList nodelist = doc.getElementsByTagName("users");
-
-				if (nodelist.getLength() >= 0) {
-					rootElement = (Element) nodelist.item(0);
-				} else {
-					rootElement = doc.createElement("users");
-					doc.appendChild(rootElement);
-				}
-
-				// user elements
-				Element user = doc.createElement("user");
-				rootElement.appendChild(user);
-
-				// username elements
-				Element username = doc.createElement("username");
-				username.appendChild(doc.createTextNode(Register_username.getText()));
-				user.appendChild(username);
-
-				// Crypt password
-				// Create MessageDigest instance for MD5
-				String pw = Register_password.getText();
-				try {
-					MessageDigest md = MessageDigest.getInstance("MD5");
-					// Add password bytes to digest
-					md.update(pw.getBytes());
-					// Get the hash's bytes
-					byte[] bytes = md.digest();
-					// This bytes[] has bytes in decimal format;
-					// Convert it to hexadecimal format
-					StringBuilder sb = new StringBuilder();
-					for (int i = 0; i < bytes.length; i++) {
-						sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-					}
-					// Get complete hashed password in hex format
-					pw = sb.toString();
-				} catch (NoSuchAlgorithmException e) {
-					e.printStackTrace();
-				}
-
-				// password elements
-				Element password = doc.createElement("password");
-				password.appendChild(doc.createTextNode(pw));
-				user.appendChild(password);
-
-				// write the content into xml file
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-
-				Transformer transformer = transformerFactory.newTransformer();
-
-				DOMSource source = new DOMSource(doc);
-				StreamResult result = new StreamResult(new File("BD/users.xml"));
-				transformer.transform(source, result);
-
-				if (event.getSource() == Register_register) {
-					Stage stage = null;
-					Parent root = null;
-					stage = (Stage) Register_register.getScene().getWindow();
-					root = FXMLLoader.load(getClass().getResource("../view/TaskManager.fxml"));
-					Scene scene = new Scene(root);
-					stage.setScene(scene);
-					stage.show();
-				}
-			}
-		} catch (ParserConfigurationException | TransformerException | IOException | SAXException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private Element getUser(Document doc, String username) {
@@ -309,45 +165,7 @@ public class Controller implements Initializable {
 		}
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-
-		s.getObservableList().addListener((ListChangeListener<Tache>) change -> {
-			while (change.next()) {
-				// for (Note remitem : change.getRemoved()) {
-				// System.out.println("suppr");
-				// }
-				for (Tache t : change.getAddedSubList()) {
-					try {
-
-						GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
-
-						// Set text to labels
-						((Label) tache.getChildren().get(0)).setText(t.getTitle());
-						((Label) tache.getChildren().get(1)).setText(t.getOwner().getUsername());
-						((Label) tache.getChildren().get(2)).setText(t.getState());
-						((Label) tache.getChildren().get(3)).setText(t.getDeadline());
-						((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
-
-						// Bind label to model
-						t.getOwner().getUsernameProperty()
-								.bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
-						t.getPerformer().getUsernameProperty()
-								.bindBidirectional(((Label) tache.getChildren().get(3)).textProperty());
-						t.getDeadLineProperty().bindBidirectional(((Label) tache.getChildren().get(2)).textProperty());
-						t.getStateProperty().bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
-						t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
-
-						// Add task to FlowPanel
-						App_flowPane.getChildren().add(tache);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-
-			}
-		});
-	}
+	
 
 	private List<Utilisateur> loadUsersFromXML() {
 		ArrayList<Utilisateur> listUsers = new ArrayList<Utilisateur>();
@@ -361,5 +179,11 @@ public class Controller implements Initializable {
 			e.printStackTrace();
 		}
 		return listUsers;
+	}
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+		
 	}
 }

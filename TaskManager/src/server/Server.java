@@ -9,7 +9,7 @@ import model.Tache;
 
 public class Server
 {
-	private List<Tache> lTache= new ArrayList<Tache>();
+	private List<Tache> lTache = new ArrayList<Tache>();
 
 	// Now add observability by wrapping it with ObservableList.
 	ObservableList<Tache> observableListTaches = FXCollections.observableList(lTache);
