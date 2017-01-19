@@ -54,7 +54,7 @@ public class ControllerNewTask implements Initializable {
 		
 		//Add users to choices
 		for(User u : s.getObservableListUsers()){
-			((ComboBox<String>)NewTask_Pane.getChildren().get(10)).getItems().add(u.getUsername());
+			((ComboBox<String>)NewTask_Pane.getChildren().get(9)).getItems().add(u.getUsername());
 		}
 		
 		
