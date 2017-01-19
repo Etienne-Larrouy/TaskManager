@@ -1,9 +1,6 @@
 package model;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -14,6 +11,7 @@ public class Task {
 	private StringProperty description = new SimpleStringProperty();
 	private StringProperty state = new SimpleStringProperty();
 	private StringProperty deadLine = new SimpleStringProperty();
+	private StringProperty creationDate = new SimpleStringProperty();
 	private int priorite;
 
 	private User owner;
@@ -25,7 +23,7 @@ public class Task {
 		this.setTitle(title);
 		this.setState(state);
 		this.setDeadLine(deadLine);
-
+		this.creationDate.set(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 		this.owner = owner;
 		this.performer = performer;
 
@@ -101,6 +99,19 @@ public class Task {
 
 	public final String getDeadline() {
 		return this.deadLine.get();
+	}
+	
+	// CreationDate
+	public final void setCreationDate(String creationDate) {
+		this.creationDate.set(creationDate);
+	}
+
+	public final StringProperty getCreationDateProperty() {
+		return this.creationDate;
+	}
+
+	public final String getCreationDate() {
+		return this.creationDate.get();
 	}
 
 }

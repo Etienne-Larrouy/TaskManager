@@ -44,7 +44,7 @@
             <Insets top="95.0" />
          </GridPane.margin>
       </Line>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name :" GridPane.rowIndex="1">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title:" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="5.0" top="25.0" />
          </GridPane.margin>
@@ -62,12 +62,6 @@
                </font>
             </Text>
             <TextArea fx:id="NewTask_description" layoutX="129.0" layoutY="35.0" prefHeight="66.0" prefWidth="348.0" />
-            <Text layoutX="29.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of creation : ">
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Text>
-            <DatePicker fx:id="NewTask_creationDate" layoutX="157.0" layoutY="126.0" />
             <Text layoutX="29.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Priority :">
                <font>
                   <Font size="15.0" />
@@ -91,6 +85,7 @@
                   <Font size="40.0" />
                </font>
             </Button>
+            <Text fx:id="NewTask_statusbar" layoutX="45.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="61.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">

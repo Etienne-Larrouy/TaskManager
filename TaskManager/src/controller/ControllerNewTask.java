@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -12,7 +13,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Task;
 import model.User;
@@ -21,30 +26,66 @@ import server.Server;
 public class ControllerNewTask implements Initializable {
 	private Server s;
 
-
 	@FXML
 	private Button NewTask_createTask;
 
 	@FXML
 	private AnchorPane NewTask_Pane;
+	
+	@FXML
+	private ComboBox<String> NewTask_performer;
+	
+	@FXML
+	private TextField NewTask_name;
+	
+	@FXML
+	private TextArea NewTask_description;
+	
+	@FXML
+	private ComboBox<String> NewTask_priority;
+	
+	@FXML
+	private DatePicker NewTask_deadline;
+	
+	@FXML
+	private Text NewTask_statusbar;
 
 	@FXML
 	public void createTask(ActionEvent event) throws IOException {
 
 		if (event.getSource() == NewTask_createTask) {
-			Stage stage = null;
-			Parent root = null;
-			stage = (Stage) NewTask_createTask.getScene().getWindow();
-			root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
-			Scene scene = new Scene(root);
-			stage.setScene(scene);
-			stage.show();
+			if(NewTask_name.getText().isEmpty()){
+				NewTask_statusbar.setText("Title empty, choose a title");
+			}
+			else if(NewTask_deadline.getValue()==null){
+				NewTask_statusbar.setText("Deadline is empty, choose a deadLine");
+			}
+			else{
+			
+			
+				User owner = new User("Roger RABBIT");
+	
+				//Create new Task and send it to the server
+				Task t1 = new Task(NewTask_name.getText() , 
+						NewTask_description.getText() , 
+						owner, 
+						s.getObservableListUsers().get(NewTask_performer.getSelectionModel().getSelectedIndex()), 
+						NewTask_priority.getSelectionModel().getSelectedItem(), 
+						NewTask_deadline.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+				s.addTask(t1);
+	
+				//Change scene
+				Stage stage = null;
+				Parent root = null;
+				stage = (Stage) NewTask_createTask.getScene().getWindow();
+				root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
+				Scene scene = new Scene(root);
+				stage.setScene(scene);
+				stage.show();
+			}
 		}
 
-		User owner = new User("Roger RABBIT");
-		User performer = new User("Clément CHOLLET");
-		Task t1 = new Task("Titre", "Description", owner, performer, "En Cours", "12/02/2016");
-		s.addTask(t1);
+		
 	}
 
 	@Override
@@ -54,10 +95,14 @@ public class ControllerNewTask implements Initializable {
 		
 		//Add users to choices
 		for(User u : s.getObservableListUsers()){
-			((ComboBox<String>)NewTask_Pane.getChildren().get(9)).getItems().add(u.getUsername());
+			NewTask_performer.getItems().add(u.getUsername());
 		}
+	
+		NewTask_priority.getItems().addAll("Faible", "Normale", "Elevée", "Urgente");
 		
-		
+		//Select first choice
+		NewTask_performer.getSelectionModel().selectFirst();
+		NewTask_priority.getSelectionModel().selectFirst();
 	}
 
 }
