@@ -31,7 +31,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Line endX="100.0" startX="875.0" GridPane.columnIndex="1">
+      <Line endX="200.0" startX="1100.0" GridPane.columnIndex="1">
          <GridPane.margin>
             <Insets top="30.0" />
          </GridPane.margin>
