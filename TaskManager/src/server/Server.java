@@ -26,7 +26,7 @@ public final class Server{
 	// Now add observability by wrapping it with ObservableList.
 	private ObservableList<Task> observableListTaches = FXCollections.observableList(lTache);
 
-
+	private User userSession;
 	private List<User> lUsers = new ArrayList<User>();
 
 	// Now add observability by wrapping it with ObservableList.
@@ -52,7 +52,7 @@ public final class Server{
 
 		for (int i = 0; i < nbUsers; i++) {
 			Element user = (Element) users.item(i);
-			this.addUser(new User(user.getElementsByTagName("username").item(0).getTextContent()));
+			this.addUser(new User(user.getElementsByTagName("username").item(0).getTextContent(), this.observableListTaches.size()));
 		}
 		
 		} catch (ParserConfigurationException | SAXException | IOException e) {
@@ -64,6 +64,15 @@ public final class Server{
 	// Add keyword to the observable map
 	public void addTask(Task t) {
 		this.observableListTaches.add(t);
+	}
+
+	// Init user session
+	public void initUserSession(User u) {
+		this.userSession = u;
+	}
+	
+	public User getUserSession() {
+		return this.userSession;
 	}
 
 	public ObservableList<Task> getObservableListTasks() {

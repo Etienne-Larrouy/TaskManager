@@ -12,21 +12,23 @@ public class Task {
 	private StringProperty state = new SimpleStringProperty();
 	private StringProperty deadLine = new SimpleStringProperty();
 	private StringProperty creationDate = new SimpleStringProperty();
-	private int priorite;
+	private StringProperty priority = new SimpleStringProperty();
+	private int id;
 
 	private User owner;
 	private User performer;
 
-	public Task(String title, String description, User owner, User performer, String state,
-			String deadLine) {
+	public Task(String title, String description, User owner, User performer, String priority,
+		String deadLine, int id) {
 		this.setDescription(description);
 		this.setTitle(title);
-		this.setState(state);
+		this.setState("En cours");
+		this.setPriority(priority);
 		this.setDeadLine(deadLine);
 		this.creationDate.set(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 		this.owner = owner;
-		this.performer = performer;
-
+		this.setPerformer(performer);;
+		this.id = id;
 	}
 
 	/* Getters and setters */
@@ -34,10 +36,6 @@ public class Task {
 	// Owner
 	public User getOwner() {
 		return owner;
-	}
-
-	public void setOwner(User owner) {
-		this.owner = owner;
 	}
 
 	// Performer
@@ -52,6 +50,13 @@ public class Task {
 	// Title
 	public final String getTitle() {
 		return this.title.get();
+	}
+
+	@Override
+	public String toString() {
+		return "Task [title=" + title + ", description=" + description + ", state=" + state + ", deadLine=" + deadLine
+				+ ", creationDate=" + creationDate + ", priority=" + priority + ", id=" + id + ", owner=" + owner
+				+ ", performer=" + performer + "]";
 	}
 
 	public final void setTitle(String title) {
@@ -112,6 +117,19 @@ public class Task {
 
 	public final String getCreationDate() {
 		return this.creationDate.get();
+	}
+	
+	// Priority
+	public final void setPriority(String priority) {
+		this.priority.set(priority);
+	}
+
+	public final StringProperty getPriorityProperty() {
+		return this.priority;
+	}
+
+	public final String getPriority() {
+		return this.priority.get();
 	}
 
 }

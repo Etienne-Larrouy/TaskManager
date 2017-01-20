@@ -65,6 +65,14 @@ public class Controller implements Initializable {
 				docBuilder = docFactory.newDocumentBuilder();
 				Document doc = docBuilder.parse(new File("BD/users.xml"));
 				if (canConnect(doc, TaskManager_username.getText(), TaskManager_password.getText())) {
+					//Get User object
+					for(User u : s.getObservableListUsers()){
+						if(u.getUsername().equals(TaskManager_username.getText())){
+							s.initUserSession(u);
+							break;
+						}
+					}
+			
 					if (event.getSource() == TaskManager_connexion) {
 						Stage stage = null;
 						Parent root = null;

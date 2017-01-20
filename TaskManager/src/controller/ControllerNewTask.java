@@ -61,19 +61,19 @@ public class ControllerNewTask implements Initializable {
 				NewTask_statusbar.setText("Deadline is empty, choose a deadLine");
 			}
 			else{
-			
-			
-				User owner = new User("Roger RABBIT");
 	
 				//Create new Task and send it to the server
 				Task t1 = new Task(NewTask_name.getText() , 
 						NewTask_description.getText() , 
-						owner, 
+						s.getUserSession(), 
 						s.getObservableListUsers().get(NewTask_performer.getSelectionModel().getSelectedIndex()), 
 						NewTask_priority.getSelectionModel().getSelectedItem(), 
-						NewTask_deadline.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+						NewTask_deadline.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+						s.getObservableListTasks().size());
 				s.addTask(t1);
 	
+				
+				
 				//Change scene
 				Stage stage = null;
 				Parent root = null;

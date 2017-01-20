@@ -32,9 +32,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.User;
 import server.Server;
 
-public class ControllerRegister implements Initializable{
+public class ControllerRegister implements Initializable {
 	private Server s;
 	@FXML
 	private Text Register_statusbar;
@@ -48,17 +49,16 @@ public class ControllerRegister implements Initializable{
 	@FXML
 	private TextField Register_username;
 
-
 	@FXML
 	private Button Register_register;
-	
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		 s = Server.getInstance();
+		s = Server.getInstance();
 
 	}
-	
+
 	private Element getUser(Document doc, String username) {
 
 		// get all user nodes
@@ -77,7 +77,6 @@ public class ControllerRegister implements Initializable{
 		return null;
 	}
 
-	
 	@FXML
 	public void handleSignUp(ActionEvent event) {
 		try {
@@ -154,6 +153,9 @@ public class ControllerRegister implements Initializable{
 				DOMSource source = new DOMSource(doc);
 				StreamResult result = new StreamResult(new File("BD/users.xml"));
 				transformer.transform(source, result);
+
+				// Ass User in list server
+				s.addUser(new User(Register_username.getText(), s.getObservableListUsers().size()));
 
 				if (event.getSource() == Register_register) {
 					Stage stage = null;

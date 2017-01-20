@@ -11,8 +11,9 @@ public class User
 	private ArrayList<Task> lTache = new ArrayList<Task>();
 	private StringProperty username = new SimpleStringProperty(); 
 	
-	public User(String username){
+	public User(String username, int id){
 		this.username.set(username);
+		this.id  = id;
 	}
 	/* Getters and setters*/
 	public final String getUsername() {
