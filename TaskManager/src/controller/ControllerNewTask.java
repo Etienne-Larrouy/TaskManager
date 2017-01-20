@@ -5,6 +5,8 @@ import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
+import javax.xml.transform.TransformerException;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,7 +72,12 @@ public class ControllerNewTask implements Initializable {
 						NewTask_priority.getSelectionModel().getSelectedItem(), 
 						NewTask_deadline.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
 						s.getObservableListTasks().size());
-				s.addTask(t1);
+				try {
+					s.addTask(t1);
+				} catch (TransformerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 	
 				
 				

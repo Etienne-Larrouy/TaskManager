@@ -100,62 +100,10 @@ public class ControllerRegister implements Initializable {
 			} else {
 				Register_statusbar.setText("");
 
-				Element rootElement = null;
-				NodeList nodelist = doc.getElementsByTagName("users");
-
-				if (nodelist.getLength() >= 0) {
-					rootElement = (Element) nodelist.item(0);
-				} else {
-					rootElement = doc.createElement("users");
-					doc.appendChild(rootElement);
-				}
-
-				// user elements
-				Element user = doc.createElement("user");
-				rootElement.appendChild(user);
-
-				// username elements
-				Element username = doc.createElement("username");
-				username.appendChild(doc.createTextNode(Register_username.getText()));
-				user.appendChild(username);
-
-				// Crypt password
-				// Create MessageDigest instance for MD5
-				String pw = Register_password.getText();
-				try {
-					MessageDigest md = MessageDigest.getInstance("MD5");
-					// Add password bytes to digest
-					md.update(pw.getBytes());
-					// Get the hash's bytes
-					byte[] bytes = md.digest();
-					// This bytes[] has bytes in decimal format;
-					// Convert it to hexadecimal format
-					StringBuilder sb = new StringBuilder();
-					for (int i = 0; i < bytes.length; i++) {
-						sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-					}
-					// Get complete hashed password in hex format
-					pw = sb.toString();
-				} catch (NoSuchAlgorithmException e) {
-					e.printStackTrace();
-				}
-
-				// password elements
-				Element password = doc.createElement("password");
-				password.appendChild(doc.createTextNode(pw));
-				user.appendChild(password);
-
-				// write the content into xml file
-				TransformerFactory transformerFactory = TransformerFactory.newInstance();
-
-				Transformer transformer = transformerFactory.newTransformer();
-
-				DOMSource source = new DOMSource(doc);
-				StreamResult result = new StreamResult(new File("BD/users.xml"));
-				transformer.transform(source, result);
+				
 
 				// Ass User in list server
-				s.addUser(new User(Register_username.getText(), s.getObservableListUsers().size()));
+				s.addUser(new User(Register_username.getText(), s.getObservableListUsers().size()),Register_password.getText());
 
 				if (event.getSource() == Register_register) {
 					Stage stage = null;
