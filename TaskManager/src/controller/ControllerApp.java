@@ -65,34 +65,32 @@ public class ControllerApp implements Initializable{
 
 		//Add existing tasks
 		for (Task t : s.getObservableListTasks()) {
-			try {
+			if(t.getOwner().equals(s.getUserSession()) || t.getPerformer().equals(s.getUserSession())){
+				try {
 
-				GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
+					GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
 
-				// Set text to labels
+					// Set text to labels
+					((Label) tache.getChildren().get(0)).setText(t.getTitle());
+					((Label) tache.getChildren().get(1)).setText(t.getOwner().getUsername());
+					((Label) tache.getChildren().get(2)).setText(t.getState());
+					((Label) tache.getChildren().get(3)).setText(t.getDeadline());
+					((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
+					((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
 
-				((Label) tache.getChildren().get(0)).setText(t.getTitle());
-				((Label) tache.getChildren().get(1)).setText(t.getOwner().getUsername());
-				((Label) tache.getChildren().get(2)).setText(t.getState());
-				((Label) tache.getChildren().get(3)).setText(t.getDeadline());
-				((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
-				((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
+					// Bind label to model
+					t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
+					t.getOwner().getUsernameProperty().bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
+					t.getStateProperty().bindBidirectional(((Label) tache.getChildren().get(2)).textProperty());
+					t.getDeadLineProperty().bindBidirectional(((Label) tache.getChildren().get(3)).textProperty());
+					t.getPerformer().getUsernameProperty().bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
+					t.getCreationDateProperty().bindBidirectional(((Label) tache.getChildren().get(5)).textProperty());
 
-				// Bind label to model
-				t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
-				t.getOwner().getUsernameProperty().bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
-				t.getStateProperty().bindBidirectional(((Label) tache.getChildren().get(2)).textProperty());
-				t.getDeadLineProperty().bindBidirectional(((Label) tache.getChildren().get(3)).textProperty());
-				t.getPerformer().getUsernameProperty().bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
-				t.getCreationDateProperty().bindBidirectional(((Label) tache.getChildren().get(5)).textProperty());
-
-
-
-
-				// Add task to FlowPanel
-				App_flowPane.getChildren().add(tache);
-			} catch (IOException e) {
-				e.printStackTrace();
+					// Add task to FlowPanel
+					App_flowPane.getChildren().add(tache);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 

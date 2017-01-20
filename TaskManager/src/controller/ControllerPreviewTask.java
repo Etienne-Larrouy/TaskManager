@@ -21,9 +21,14 @@ public class ControllerPreviewTask implements Initializable{
 	public void openTask(MouseEvent event) throws IOException {
 		Stage stage = null;
 		Parent root = null;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Task.fxml"));
+		
+	
+		ControllerTask controller = new ControllerTask(null);
+	        // Set it in the FXMLLoader
+		loader.setController(controller);
 		
 		stage = (Stage) ((GridPane)event.getSource()).getScene().getWindow();
-		root = FXMLLoader.load(getClass().getResource("../view/Task.fxml"));
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();

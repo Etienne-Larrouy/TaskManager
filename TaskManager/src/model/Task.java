@@ -22,7 +22,7 @@ public class Task {
 		String deadLine, int id) {
 		this.setDescription(description);
 		this.setTitle(title);
-		this.setState("En cours");
+		this.setState("En Cours");
 		this.setPriority(priority);
 		this.setDeadLine(deadLine);
 		this.creationDate.set(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
@@ -30,6 +30,19 @@ public class Task {
 		this.setPerformer(performer);;
 		this.id = id;
 	}
+	
+	public Task(String title, String description, User owner, User performer, String priority,
+			String deadLine, int id, String state, String creationDate) {
+			this.setDescription(description);
+			this.setTitle(title);
+			this.setState("En Cours");
+			this.setPriority(priority);
+			this.setDeadLine(deadLine);
+			this.setCreationDate(creationDate);
+			this.owner = owner;
+			this.setPerformer(performer);;
+			this.id = id;
+		}
 
 	/* Getters and setters */
 

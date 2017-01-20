@@ -27,7 +27,7 @@ import javafx.collections.ObservableList;
 import model.Task;
 import model.User;
 
-public final class Server{
+public final class Server {
 
 	private List<Task> lTache = new ArrayList<Task>();
 
@@ -51,7 +51,7 @@ public final class Server{
 		return serverInstance;
 	}
 
-	private Server(){
+	private Server() {
 		try {
 
 			docFactory = DocumentBuilderFactory.newInstance();
@@ -63,23 +63,24 @@ public final class Server{
 			this.loadUsers();
 			this.loadTasks();
 
-
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	//Load users from xml
-	public void loadUsers(){
+	// Load users from xml
+	public void loadUsers() {
 		// get all user nodes
 		NodeList users = docUsers.getElementsByTagName("user");
 
 		int nbUsers = users.getLength();
 
 		for (int i = 0; i < nbUsers; i++) {
+
 			Element user = (Element) users.item(i);
-			this.observableListUsers.add(new User(user.getElementsByTagName("username").item(0).getTextContent(), this.getObservableListUsers().size()));
+			this.observableListUsers.add(new User(user.getElementsByTagName("username").item(0).getTextContent(),
+					this.getObservableListUsers().size()));
 		}
 
 		// get all tasks nodes
@@ -88,14 +89,15 @@ public final class Server{
 
 		for (int i = 0; i < nbTasks; i++) {
 			Element task = (Element) tasks.item(i);
-			this.observableListUsers.add(new User(task.getElementsByTagName("username").item(0).getTextContent(), this.getObservableListTasks().size()));
+			this.observableListUsers.add(new User(task.getElementsByTagName("username").item(0).getTextContent(),
+					this.getObservableListTasks().size()));
 		}
 	}
 
-	//Load users from xml
-	public void loadTask(){
+	// Load users from xml
+	public void loadTasks() {
 		// get all user nodes
-		NodeList tasks = docUsers.getElementsByTagName("task");
+		NodeList tasks = docTasks.getElementsByTagName("task");
 
 		int nbTasks = tasks.getLength();
 
@@ -109,10 +111,19 @@ public final class Server{
 			String creationDate = task.getElementsByTagName("creationDate").item(0).getTextContent();
 			String state = task.getElementsByTagName("state").item(0).getTextContent();
 			String priority = task.getElementsByTagName("priority").item(0).getTextContent();
-			this.observableListTasks.add(new Task(title, desc, userSession, userSession, priority, deadline, i));
+			this.observableListTasks.add(new Task(title, desc, this.getUserFromUsername(author),
+					this.getUserFromUsername(performer), priority, deadline, i, state, creationDate));
 		}
 	}
 
+	public User getUserFromUsername(String username) {
+		for (User u : this.getObservableListUsers()) {
+			if (u.getUsername().equals(username))
+				return u;
+		}
+
+		return null;
+	}
 
 	// Add keyword to the observable map
 	public void addTask(Task t) throws TransformerException {
