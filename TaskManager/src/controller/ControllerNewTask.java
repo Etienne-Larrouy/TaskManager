@@ -105,7 +105,7 @@ public class ControllerNewTask implements Initializable {
 			NewTask_performer.getItems().add(u.getUsername());
 		}
 	
-		NewTask_priority.getItems().addAll("Faible", "Normale", "Elevée", "Urgente");
+		NewTask_priority.getItems().addAll("Low", "Normal", "High", "Urgent");
 		
 		//Select first choice
 		NewTask_performer.getSelectionModel().selectFirst();

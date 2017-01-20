@@ -22,12 +22,12 @@ public class Task {
 		String deadLine, int id) {
 		this.setDescription(description);
 		this.setTitle(title);
-		this.setState("En Cours");
+		this.setState("In Progress");
 		this.setPriority(priority);
 		this.setDeadLine(deadLine);
 		this.creationDate.set(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 		this.owner = owner;
-		this.setPerformer(performer);;
+		this.setPerformer(performer);
 		this.id = id;
 	}
 	
@@ -35,7 +35,7 @@ public class Task {
 			String deadLine, int id, String state, String creationDate) {
 			this.setDescription(description);
 			this.setTitle(title);
-			this.setState("En Cours");
+			this.setState(state);
 			this.setPriority(priority);
 			this.setDeadLine(deadLine);
 			this.setCreationDate(creationDate);

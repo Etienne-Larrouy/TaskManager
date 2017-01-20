@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Task;
 import server.Server;
@@ -62,7 +63,7 @@ public class ControllerApp implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		s = Server.getInstance();
-
+		int id = 0;
 		//Add existing tasks
 		for (Task t : s.getObservableListTasks()) {
 			if(t.getOwner().equals(s.getUserSession()) || t.getPerformer().equals(s.getUserSession())){
@@ -77,6 +78,7 @@ public class ControllerApp implements Initializable{
 					((Label) tache.getChildren().get(3)).setText(t.getDeadline());
 					((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
 					((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
+					((Text) tache.getChildren().get(6)).setText(Integer.toString(id));
 
 					// Bind label to model
 					t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
@@ -92,6 +94,8 @@ public class ControllerApp implements Initializable{
 					e.printStackTrace();
 				}
 			}
+			
+			id++;
 		}
 
 		s.getObservableListTasks().addListener((ListChangeListener<Task>) change -> {
