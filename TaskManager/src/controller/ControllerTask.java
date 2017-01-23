@@ -12,7 +12,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import model.Task;
 import server.Server;
@@ -39,6 +38,9 @@ public class ControllerTask implements Initializable{
 	private Label Task_deadline;
 	
 	@FXML
+	private Label Task_Title;
+	
+	@FXML
 	private Label Task_performer;
 	
 	Task currentTask;
@@ -53,11 +55,12 @@ public class ControllerTask implements Initializable{
 		Parent root = null;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/TaskEdit.fxml"));
 
-		ControllerEditTask controller = new ControllerEditTask(currentTask);
+		stage = (Stage) Task_description.getScene().getWindow();
+		
+		ControllerEditTask controller = new ControllerEditTask(currentTask, stage);
 		// Set it in the FXMLLoader
 		loader.setController(controller);
 
-		stage = new Stage();
 
 		root = (Parent) loader.load();
 		Scene scene = new Scene(root);
@@ -78,6 +81,7 @@ public class ControllerTask implements Initializable{
 		Task_state.setText(currentTask.getState());
 		Task_deadline.setText(currentTask.getDeadline());
 		Task_performer.setText(currentTask.getPerformer().getUsername());
+		Task_Title.setText(currentTask.getTitle());
 		
 	}
 

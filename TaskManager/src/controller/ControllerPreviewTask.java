@@ -32,7 +32,7 @@ public class ControllerPreviewTask implements Initializable{
 	        // Set it in the FXMLLoader
 		loader.setController(controller);
 
-		stage = (Stage) ((GridPane)event.getSource()).getScene().getWindow();
+		stage = new Stage();
 		
 		root = (Parent)loader.load();
 		Scene scene = new Scene(root);
