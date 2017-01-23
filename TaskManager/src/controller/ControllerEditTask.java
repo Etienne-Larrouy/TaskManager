@@ -25,10 +25,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import model.Task;
 import model.User;
-import server.Server;
+import server.Client;
 
 public class ControllerEditTask implements Initializable {
-	private Server s = Server.getInstance();
+	private Client s = Client.getInstance();
 
 	@FXML
 	private TextArea EditTask_description;
@@ -107,7 +107,7 @@ public class ControllerEditTask implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		s = Server.getInstance();
+		s = Client.getInstance();
 
 		//Radio button state
 		final ToggleGroup group = new ToggleGroup();

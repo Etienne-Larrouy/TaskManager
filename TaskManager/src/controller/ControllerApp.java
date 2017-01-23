@@ -18,10 +18,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Task;
-import server.Server;
+import server.Client;
 
 public class ControllerApp implements Initializable{
-	private Server s;
+	private Client s;
 
 	@FXML
 	private FlowPane App_flowPane;
@@ -62,7 +62,7 @@ public class ControllerApp implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		s = Server.getInstance();
+		s = Client.getInstance();
 		int id = 0;
 		//Add existing tasks
 		for (Task t : s.getObservableListTasks()) {

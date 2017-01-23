@@ -14,10 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 import model.Task;
-import server.Server;
 
 public class ControllerTask implements Initializable{
-	private Server s;
 	
 	@FXML
 	private TextArea Task_description;
@@ -71,7 +69,6 @@ public class ControllerTask implements Initializable{
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		s = Server.getInstance();
 		
 		//Init value of labels
 		Task_description.setText(currentTask.getDescription());

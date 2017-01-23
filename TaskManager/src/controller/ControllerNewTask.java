@@ -23,10 +23,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Task;
 import model.User;
-import server.Server;
+import server.Client;
 
 public class ControllerNewTask implements Initializable {
-	private Server s;
+	private Client s;
 
 	@FXML
 	private Button NewTask_createTask;
@@ -98,7 +98,7 @@ public class ControllerNewTask implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		s = Server.getInstance();
+		s = Client.getInstance();
 		
 		//Add users to choices
 		for(User u : s.getObservableListUsers()){

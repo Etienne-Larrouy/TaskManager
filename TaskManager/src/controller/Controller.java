@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -30,11 +28,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.User;
-import server.Server;
+import server.Client;
 
 public class Controller implements Initializable {
 
-	private Server s;
+	private Client s;
 	@FXML
 	private TextField TaskManager_username;
 
@@ -47,10 +45,9 @@ public class Controller implements Initializable {
 	@FXML
 	private Button TaskManager_connexion;
 
-
 	@FXML
 	private Button TaskManager_register;
-	
+
 	@FXML
 	public void handleConnect(ActionEvent event) {
 		if (TaskManager_username.getText().isEmpty())
@@ -58,43 +55,45 @@ public class Controller implements Initializable {
 		else if (TaskManager_password.getText().isEmpty())
 			statusbar.setText("Error password is empty");
 		else {
-			// Verify user and password from xml
+			String pw = TaskManager_password.getText();
 			try {
-				DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder docBuilder;
-				docBuilder = docFactory.newDocumentBuilder();
-				Document doc = docBuilder.parse(new File("BD/users.xml"));
-				if (canConnect(doc, TaskManager_username.getText(), TaskManager_password.getText())) {
-					//Get User object
-					for(User u : s.getObservableListUsers()){
-						if(u.getUsername().equals(TaskManager_username.getText())){
-							s.initUserSession(u);
-							break;
-						}
-					}
-			
-					if (event.getSource() == TaskManager_connexion) {
-						Stage stage = null;
-						Parent root = null;
-						stage = (Stage) TaskManager_connexion.getScene().getWindow();
-						root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
-						
-						Scene scene = new Scene(root);
-					
-						stage.setScene(scene);
-						stage.show();
-					}
-				} else {
-					statusbar.setText("Wrong password or username");
+				MessageDigest md = MessageDigest.getInstance("MD5");
+				// Add password bytes to digest
+				md.update(pw.getBytes());
+				// Get the hash's bytes
+				byte[] bytes = md.digest();
+				// This bytes[] has bytes in decimal format;
+				// Convert it to hexadecimal format
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < bytes.length; i++) {
+					sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+				}
+				// Get complete hashed password in hex format
+				pw = sb.toString();
+				// Crypt password
+				// Create MessageDigest instance for MD5
+
+				if (Client.getInstance().connect(TaskManager_username.getText(), pw)) {
+					Stage stage = null;
+					Parent root = null;
+					stage = (Stage) TaskManager_connexion.getScene().getWindow();
+					root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
+
+					Scene scene = new Scene(root);
+
+					stage.setScene(scene);
+					stage.show();
+				}
+				else{
+					statusbar.setText("Wrong username or password");
 				}
 
-			} catch (ParserConfigurationException | SAXException | IOException e) {
+			} catch (NoSuchAlgorithmException | IOException e) {
 				e.printStackTrace();
 			}
+
 		}
 	}
-
-
 
 	@FXML
 	public void handleRegister(ActionEvent event) throws IOException {
@@ -128,61 +127,8 @@ public class Controller implements Initializable {
 		return null;
 	}
 
-	private boolean canConnect(Document doc, String username, String password) {
-
-		Element user = getUser(doc, username);
-
-		if (user == null) {
-			return false;
-		} else {
-			// Crypt password
-			// Create MessageDigest instance for MD5
-			String pw = password;
-			try {
-				MessageDigest md = MessageDigest.getInstance("MD5");
-				// Add password bytes to digest
-				md.update(pw.getBytes());
-				// Get the hash's bytes
-				byte[] bytes = md.digest();
-				// This bytes[] has bytes in decimal format;
-				// Convert it to hexadecimal format
-				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < bytes.length; i++) {
-					sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-				}
-				// Get complete hashed password in hex format
-				pw = sb.toString();
-			} catch (NoSuchAlgorithmException e) {
-				e.printStackTrace();
-			}
-			if (pw.equals(user.getElementsByTagName("password").item(0).getTextContent())) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-	}
-
-	
-
-	private List<User> loadUsersFromXML() {
-		ArrayList<User> listUsers = new ArrayList<User>();
-		try {
-			// Open document
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder;
-			docBuilder = docFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(new File("BD/users.xml"));
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			e.printStackTrace();
-		}
-		return listUsers;
-	}
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		s = Server.getInstance();
-		// TODO Auto-generated method stub
-		
+		s = Client.getInstance();
 	}
 }

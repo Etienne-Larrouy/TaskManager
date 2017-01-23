@@ -3,20 +3,19 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.scene.layout.FlowPane;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import server.Server;
+import server.Client;
 
 public class ControllerPreviewTask implements Initializable{
-	private Server s;
+	private Client s;
 	
 	@FXML
 	private Text TaskPreview_id;
@@ -44,7 +43,7 @@ public class ControllerPreviewTask implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		s = Server.getInstance();
+		s = Client.getInstance();
 	}
 
 }

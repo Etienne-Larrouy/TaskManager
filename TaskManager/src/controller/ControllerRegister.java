@@ -3,18 +3,12 @@ package controller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,10 +27,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.User;
-import server.Server;
+import server.Client;
 
 public class ControllerRegister implements Initializable {
-	private Server s;
+	private Client s;
 	@FXML
 	private Text Register_statusbar;
 
@@ -55,7 +49,7 @@ public class ControllerRegister implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// TODO Auto-generated method stub
-		s = Server.getInstance();
+		s = Client.getInstance();
 
 	}
 
@@ -79,12 +73,10 @@ public class ControllerRegister implements Initializable {
 
 	@FXML
 	public void handleSignUp(ActionEvent event) {
+	
 		try {
 			// Write user and password to xml
-			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse(new File("BD/users.xml"));
-			// Username empty
+			String message;
 			if (Register_username.getText().isEmpty()) {
 				Register_statusbar.setText("Error : Username is empty");
 			}
@@ -95,27 +87,24 @@ public class ControllerRegister implements Initializable {
 			// Passwords don't match
 			else if (!Register_repeatPassword.getText().equals(Register_password.getText())) {
 				Register_statusbar.setText("Error : Passwords don't match");
-			} else if (getUser(doc, Register_username.getText()) != null) {
-				Register_statusbar.setText("Error : Username already exists");
 			} else {
-				Register_statusbar.setText("");
-
+				if((message = Client.getInstance().signUp(Register_username.getText(), Register_password.getText()))== "OK"){
 				
-
-				// Ass User in list server
-				s.addUser(new User(Register_username.getText(), s.getObservableListUsers().size()),Register_password.getText());
-
-				if (event.getSource() == Register_register) {
-					Stage stage = null;
-					Parent root = null;
-					stage = (Stage) Register_register.getScene().getWindow();
-					root = FXMLLoader.load(getClass().getResource("../view/TaskManager.fxml"));
-					Scene scene = new Scene(root);
-					stage.setScene(scene);
-					stage.show();
+					if (event.getSource() == Register_register) {
+						Stage stage = null;
+						Parent root = null;
+						stage = (Stage) Register_register.getScene().getWindow();
+						root = FXMLLoader.load(getClass().getResource("../view/TaskManager.fxml"));
+						Scene scene = new Scene(root);
+						stage.setScene(scene);
+						stage.show();
+					}
+				}
+				else{
+					Register_statusbar.setText("Error : "+message);
 				}
 			}
-		} catch (ParserConfigurationException | TransformerException | IOException | SAXException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

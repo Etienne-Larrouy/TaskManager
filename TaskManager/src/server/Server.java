@@ -2,6 +2,8 @@ package server;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -11,7 +13,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -24,52 +25,46 @@ import org.xml.sax.SAXException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import model.Task;
 import model.User;
 
-public final class Server {
-
+public class Server {
 	private List<Task> lTache = new ArrayList<Task>();
 
 	// Now add observability by wrapping it with ObservableList.
 	private ObservableList<Task> observableListTasks = FXCollections.observableList(lTache);
 
-	private User userSession;
 	private List<User> lUsers = new ArrayList<User>();
 
 	// Now add observability by wrapping it with ObservableList.
 	private ObservableList<User> observableListUsers = FXCollections.observableList(lUsers);
-
-	private final static Server serverInstance = new Server();
 
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document docUsers;
 	private Document docTasks;
 
-	public static Server getInstance() {
-		return serverInstance;
-	}
+	public Server() {
 
-	private Server() {
+		docFactory = DocumentBuilderFactory.newInstance();
 		try {
-
-			docFactory = DocumentBuilderFactory.newInstance();
 			docBuilder = docFactory.newDocumentBuilder();
-
 			docUsers = docBuilder.parse(new File("BD/users.xml"));
 			docTasks = docBuilder.parse(new File("BD/tasks.xml"));
 
-			this.loadUsers();
-			this.loadTasks();
-
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ParserConfigurationException | SAXException | IOException e1) {
+			e1.printStackTrace();
 		}
+
+		this.loadUsers();
+		this.loadTasks();
+
 	}
 
-	// Load users from xml
 	public void loadUsers() {
 		// get all user nodes
 		NodeList users = docUsers.getElementsByTagName("user");
@@ -193,21 +188,12 @@ public final class Server {
 		this.observableListTasks.add(t);
 	}
 
-	// Init user session
-	public void initUserSession(User u) {
-		this.userSession = u;
-	}
-
-	public User getUserSession() {
-		return this.userSession;
-	}
-
 	public ObservableList<Task> getObservableListTasks() {
 		return observableListTasks;
 	}
 
 	// Add keyword to the observable map
-	public void addUser(User u, String pw) throws TransformerException {
+	public void addUser(String name, String pw) throws TransformerException {
 		Element rootElement = null;
 		NodeList nodelist = docUsers.getElementsByTagName("users");
 
@@ -224,29 +210,8 @@ public final class Server {
 
 		// username elements
 		Element username = docUsers.createElement("username");
-		username.appendChild(docUsers.createTextNode(u.getUsername()));
+		username.appendChild(docUsers.createTextNode(name));
 		user.appendChild(username);
-
-		// Crypt password
-		// Create MessageDigest instance for MD5
-
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			// Add password bytes to digest
-			md.update(pw.getBytes());
-			// Get the hash's bytes
-			byte[] bytes = md.digest();
-			// This bytes[] has bytes in decimal format;
-			// Convert it to hexadecimal format
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < bytes.length; i++) {
-				sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-			}
-			// Get complete hashed password in hex format
-			pw = sb.toString();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
 
 		// password elements
 		Element password = docUsers.createElement("password");
@@ -262,10 +227,71 @@ public final class Server {
 		StreamResult result = new StreamResult(new File("BD/users.xml"));
 		transformer.transform(source, result);
 
-		this.observableListUsers.add(u);
+		this.observableListUsers.add(new User(name, this.observableListUsers.size()));
 	}
 
 	public ObservableList<User> getObservableListUsers() {
 		return observableListUsers;
+	}
+
+	public User connect(String name, String pw) {
+		// Verify user and password from xml
+
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder;
+			docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.parse(new File("BD/users.xml"));
+
+			Element user = getUser(doc, name);
+			
+			if(user!=null){
+
+				if (pw.equals(user.getElementsByTagName("password").item(0).getTextContent())) {
+					// Get User object
+					for (User u : this.getObservableListUsers()) {
+						if (u.getUsername().equals(name)) {
+							return u;
+						}
+					}
+				}
+			}
+
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private Element getUser(Document doc, String username) {
+
+		// get all user nodes
+		NodeList users = doc.getElementsByTagName("user");
+		int nbUsers = users.getLength();
+
+		for (int i = 0; i < nbUsers; i++) {
+			Element user = (Element) users.item(i);
+
+			// return user if username match
+			if (user.getElementsByTagName("username").item(0).getTextContent().equals(username)) {
+				return user;
+			}
+		}
+
+		return null;
+	}
+
+	public static void main(String argv[]) throws Exception {
+		Server s = new Server();
+
+		ServerSocket welcomeSocket = new ServerSocket(6789);
+
+		while (true) {
+
+			Socket connectionSocket = welcomeSocket.accept();
+			System.out.println("New Client");
+			new Thread(new ServerThread(connectionSocket, s)).start();
+
+		}
 	}
 }
