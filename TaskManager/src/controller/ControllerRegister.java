@@ -88,7 +88,7 @@ public class ControllerRegister implements Initializable {
 			else if (!Register_repeatPassword.getText().equals(Register_password.getText())) {
 				Register_statusbar.setText("Error : Passwords don't match");
 			} else {
-				if((message = Client.getInstance().signUp(Register_username.getText(), Register_password.getText()))== "OK"){
+				if((message = Client.getInstance().signUp(Register_username.getText(), Register_password.getText())).equals("registered")){
 				
 					if (event.getSource() == Register_register) {
 						Stage stage = null;
@@ -101,7 +101,7 @@ public class ControllerRegister implements Initializable {
 					}
 				}
 				else{
-					Register_statusbar.setText("Error : "+message);
+					Register_statusbar.setText("Error : " + message);
 				}
 			}
 		} catch (IOException e) {

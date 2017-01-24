@@ -70,9 +70,10 @@ public final class Client {
 	}
 
 	public boolean connect(String name, String pw) {
-		System.out.println("Salut");
+		
 		try {
 			outToServer.writeBytes("connect "+name+" "+ pw +"\n");
+			outToServer.flush();
 			this.userSession = (User) oiStream.readObject();
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -93,6 +94,7 @@ public final class Client {
 		try {
 			outToServer.writeBytes("getUsers\n");
 			this.observableListTasks = (ObservableList<Task>) oiStream.readObject();
+			outToServer.flush();
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,12 +121,18 @@ public final class Client {
 		}
 		try {
 			outToServer.writeBytes("signUp "+username+" "+pw+"\n");
+			outToServer.flush();
+			return inFromServer.readLine();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "";
+		return "Server error";
+		
 	}
+	
+	
 	public User getUserFromUsername(String username) {
 		for (User u : this.getObservableListUsers()) {
 			if (u.getUsername().equals(username))

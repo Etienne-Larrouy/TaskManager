@@ -1,20 +1,14 @@
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ResourceBundle;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,13 +21,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.User;
 import server.Client;
 
-public class Controller implements Initializable {
+public class Controller {
 
-	private Client s;
-	@FXML
+	@FXML 
 	private TextField TaskManager_username;
 
 	@FXML
@@ -71,8 +63,7 @@ public class Controller implements Initializable {
 				// Get complete hashed password in hex format
 				pw = sb.toString();
 				// Crypt password
-				// Create MessageDigest instance for MD5
-
+				// Create MessageDigest
 				if (Client.getInstance().connect(TaskManager_username.getText(), pw)) {
 					Stage stage = null;
 					Parent root = null;
@@ -127,8 +118,4 @@ public class Controller implements Initializable {
 		return null;
 	}
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		s = Client.getInstance();
-	}
 }

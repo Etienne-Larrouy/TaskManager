@@ -36,7 +36,7 @@ public class ServerThread implements Runnable{
 		String clientSentence;
 		try {
 			while(true){
-								clientSentence = inFromClient.readLine();
+				clientSentence = inFromClient.readLine();
 				System.out.println("Recu : " + clientSentence);
 				String[] parts = clientSentence.split(" ");
 				switch(parts[0]){
@@ -55,7 +55,8 @@ public class ServerThread implements Runnable{
 				case "signUp":
 					System.out.println("Sign up");
 					try {
-						s.addUser(parts[1], parts[2]);
+						outToClient.writeBytes(s.addUser(parts[1], parts[2]));
+						objectOutput.flush();
 					} catch (TransformerException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -64,7 +65,7 @@ public class ServerThread implements Runnable{
 				case "connect":
 					System.out.println("Connect");
 					objectOutput.writeObject(s.connect(parts[1], parts[2]));
-
+					objectOutput.flush();
 					break;
 				default:
 					System.out.println("Commande inconnue");

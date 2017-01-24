@@ -193,10 +193,15 @@ public class Server {
 	}
 
 	// Add keyword to the observable map
-	public void addUser(String name, String pw) throws TransformerException {
+	public String addUser(String name, String pw) throws TransformerException {
 		Element rootElement = null;
 		NodeList nodelist = docUsers.getElementsByTagName("users");
-
+		for(User u : this.observableListUsers){
+			if(u.getUsername().equals(name)){
+				return "Username already exists";
+			}
+		}
+		
 		if (nodelist.getLength() >= 0) {
 			rootElement = (Element) nodelist.item(0);
 		} else {
@@ -228,6 +233,7 @@ public class Server {
 		transformer.transform(source, result);
 
 		this.observableListUsers.add(new User(name, this.observableListUsers.size()));
+		return "registered\n";
 	}
 
 	public ObservableList<User> getObservableListUsers() {
@@ -251,6 +257,7 @@ public class Server {
 					// Get User object
 					for (User u : this.getObservableListUsers()) {
 						if (u.getUsername().equals(name)) {
+							System.out.println("User found");
 							return u;
 						}
 					}
@@ -260,6 +267,7 @@ public class Server {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println("No user found");
 		return null;
 	}
 

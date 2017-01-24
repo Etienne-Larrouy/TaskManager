@@ -12,20 +12,17 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import sun.reflect.annotation.TypeAnnotation.LocationInfo.Location;
 
-public class User implements Serializable
-{
+public class User implements Serializable {
 	private int id;
 
-	transient private StringProperty username = new SimpleStringProperty(); 
-	
-	private String usernameString;
+	transient private StringProperty username = new SimpleStringProperty();
 
-	public User(String username, int id){
+	public User(String username, int id) {
 		this.username.set(username);
-		this.usernameString = username;
-		this.id  = id;
+		this.id = id;
 	}
-	/* Getters and setters*/
+
+	/* Getters and setters */
 	public final String getUsername() {
 		return this.username.get();
 	}
@@ -33,12 +30,18 @@ public class User implements Serializable
 	public StringProperty getUsernameProperty() {
 		return this.username;
 	}
-	
-	public String getUsernameString() {
-		return usernameString;
+
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.writeUTF(this.getUsername());
+		oos.writeInt(this.id);
+
 	}
-	
-	public void setUsernameString(String usernameString) {
-		this.usernameString = usernameString;
+
+	private void readObject(ObjectInputStream in) throws IOException {
+
+		System.out.println(in.readUTF());
+		this.id = in.readInt();
+
 	}
+
 }
