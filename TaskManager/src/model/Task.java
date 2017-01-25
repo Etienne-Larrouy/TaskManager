@@ -1,12 +1,16 @@
 package model;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Task {
+public class Task implements Serializable{
 	private StringProperty title = new SimpleStringProperty();
 	private StringProperty description = new SimpleStringProperty();
 	private StringProperty state = new SimpleStringProperty();
@@ -19,7 +23,7 @@ public class Task {
 	private User performer;
 
 	public Task(String title, String description, User owner, User performer, String priority,
-		String deadLine, int id) {
+			String deadLine, int id) {
 		this.setDescription(description);
 		this.setTitle(title);
 		this.setState("In Progress");
@@ -30,19 +34,19 @@ public class Task {
 		this.setPerformer(performer);
 		this.id = id;
 	}
-	
+
 	public Task(String title, String description, User owner, User performer, String priority,
 			String deadLine, int id, String state, String creationDate) {
-			this.setDescription(description);
-			this.setTitle(title);
-			this.setState(state);
-			this.setPriority(priority);
-			this.setDeadLine(deadLine);
-			this.setCreationDate(creationDate);
-			this.owner = owner;
-			this.setPerformer(performer);;
-			this.id = id;
-		}
+		this.setDescription(description);
+		this.setTitle(title);
+		this.setState(state);
+		this.setPriority(priority);
+		this.setDeadLine(deadLine);
+		this.setCreationDate(creationDate);
+		this.owner = owner;
+		this.setPerformer(performer);;
+		this.id = id;
+	}
 
 	/* Getters and setters */
 
@@ -118,7 +122,7 @@ public class Task {
 	public final String getDeadline() {
 		return this.deadLine.get();
 	}
-	
+
 	// CreationDate
 	public final void setCreationDate(String creationDate) {
 		this.creationDate.set(creationDate);
@@ -131,7 +135,7 @@ public class Task {
 	public final String getCreationDate() {
 		return this.creationDate.get();
 	}
-	
+
 	// Priority
 	public final void setPriority(String priority) {
 		this.priority.set(priority);
@@ -143,6 +147,49 @@ public class Task {
 
 	public final String getPriority() {
 		return this.priority.get();
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+
+	private void writeObject(ObjectOutputStream oos) throws IOException {
+		oos.writeObject(this.getTitle());
+		oos.writeObject(this.getDescription());
+		oos.writeObject(this.getState());
+		oos.writeObject(this.getDeadline());
+		oos.writeObject(this.getCreationDate());
+		oos.writeObject(this.getPriority());
+		oos.writeObject(this.getPerformer());
+		oos.writeObject(this.getOwner());
+
+		oos.writeInt(this.id);
+
+	}
+
+	private void readObject(ObjectInputStream in) throws IOException {
+		try {
+			this.title = new SimpleStringProperty();
+			this.description = new SimpleStringProperty();
+			this.state = new SimpleStringProperty();
+			this.deadLine = new SimpleStringProperty();
+			this.creationDate = new SimpleStringProperty();
+			this.priority = new SimpleStringProperty();
+
+			this.title.set((String) in.readObject());
+			this.description.set((String) in.readObject());
+			this.state.set((String) in.readObject());
+			this.deadLine.set((String) in.readObject());
+			this.creationDate.set((String) in.readObject());
+			this.priority.set((String) in.readObject());
+			this.performer = (User) in.readObject();
+			this.owner = (User) in.readObject();
+			this.id = in.readInt();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

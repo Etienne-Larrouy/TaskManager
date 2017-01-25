@@ -28,7 +28,7 @@ import model.User;
 import server.Client;
 
 public class ControllerEditTask implements Initializable {
-	private Client s = Client.getInstance();
+	private Client c = Client.getInstance();
 
 	@FXML
 	private TextArea EditTask_description;
@@ -73,7 +73,7 @@ public class ControllerEditTask implements Initializable {
 		
 		this.currentTask.setDeadLine(EditTask_deadline.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		this.currentTask.setDescription(EditTask_description.getText());
-		this.currentTask.setPerformer(s.getObservableListUsers().get(EditTask_performer.getSelectionModel().getSelectedIndex()));
+		this.currentTask.setPerformer(c.getObservableListUsers().get(EditTask_performer.getSelectionModel().getSelectedIndex()));
 		this.currentTask.setPriority(EditTask_priority.getSelectionModel().getSelectedItem());
 		if(EditTask_state_in_progress.isSelected())
 			this.currentTask.setState(EditTask_state_in_progress.getText());
@@ -83,6 +83,7 @@ public class ControllerEditTask implements Initializable {
 			this.currentTask.setState(EditTask_state_finished.getText());
 		this.currentTask.setTitle(EditTask_Title.getText());
 
+		Client.getInstance().editTask(this.currentTask);
 		try {
 
 			Parent root = null;
@@ -107,7 +108,8 @@ public class ControllerEditTask implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		s = Client.getInstance();
+		c = Client.getInstance();
+		c.getUsers();
 
 		//Radio button state
 		final ToggleGroup group = new ToggleGroup();
@@ -132,9 +134,9 @@ public class ControllerEditTask implements Initializable {
 			EditTask_state_finished.setSelected(true);
 			break;
 		}
-
+		
 		//Add users to choices
-		for(User u : s.getObservableListUsers()){
+		for(User u : c.getObservableListUsers()){
 			EditTask_performer.getItems().add(u.getUsername());
 		}
 

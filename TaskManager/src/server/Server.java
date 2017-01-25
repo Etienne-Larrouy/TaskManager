@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,30 +21,21 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import model.Task;
 import model.User;
 
 public class Server {
-	private List<Task> lTache = new ArrayList<Task>();
 
-	// Now add observability by wrapping it with ObservableList.
-	private ObservableList<Task> observableListTasks = FXCollections.observableList(lTache);
+	private List<Task> lTasks = new ArrayList<Task>();
 
 	private List<User> lUsers = new ArrayList<User>();
-
-	// Now add observability by wrapping it with ObservableList.
-	private ObservableList<User> observableListUsers = FXCollections.observableList(lUsers);
 
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
 	private Document docUsers;
 	private Document docTasks;
+
+	private static ServerSocket welcomeSocket;
 
 	public Server() {
 
@@ -65,6 +54,26 @@ public class Server {
 
 	}
 
+
+	public List<Task> getlTasks(String username) {
+		List<Task> listTasks = new ArrayList<Task>();
+
+		for(Task t : this.lTasks){
+			System.out.println(t.getTitle());
+			if(t.getOwner().getUsername().equals(username) || t.getPerformer().getUsername().equals(username)){
+				listTasks.add(t);
+			}
+		}
+
+		return listTasks;
+	}
+
+	public List<User> getlUsers() {
+		return lUsers;
+	}
+
+
+
 	public void loadUsers() {
 		// get all user nodes
 		NodeList users = docUsers.getElementsByTagName("user");
@@ -74,8 +83,8 @@ public class Server {
 		for (int i = 0; i < nbUsers; i++) {
 
 			Element user = (Element) users.item(i);
-			this.observableListUsers.add(new User(user.getElementsByTagName("username").item(0).getTextContent(),
-					this.getObservableListUsers().size()));
+			this.lUsers.add(new User(user.getElementsByTagName("username").item(0).getTextContent(),
+					this.lUsers.size()));
 		}
 
 		// get all tasks nodes
@@ -84,8 +93,8 @@ public class Server {
 
 		for (int i = 0; i < nbTasks; i++) {
 			Element task = (Element) tasks.item(i);
-			this.observableListUsers.add(new User(task.getElementsByTagName("username").item(0).getTextContent(),
-					this.getObservableListTasks().size()));
+			this.lUsers.add(new User(task.getElementsByTagName("username").item(0).getTextContent(),
+					this.lTasks.size()));
 		}
 	}
 
@@ -106,13 +115,13 @@ public class Server {
 			String creationDate = task.getElementsByTagName("creationDate").item(0).getTextContent();
 			String state = task.getElementsByTagName("state").item(0).getTextContent();
 			String priority = task.getElementsByTagName("priority").item(0).getTextContent();
-			this.observableListTasks.add(new Task(title, desc, this.getUserFromUsername(author),
+			this.lTasks.add(new Task(title, desc, this.getUserFromUsername(author),
 					this.getUserFromUsername(performer), priority, deadline, i, state, creationDate));
 		}
 	}
 
 	public User getUserFromUsername(String username) {
-		for (User u : this.getObservableListUsers()) {
+		for (User u : this.lUsers) {
 			if (u.getUsername().equals(username))
 				return u;
 		}
@@ -121,7 +130,7 @@ public class Server {
 	}
 
 	// Add keyword to the observable map
-	public void addTask(Task t) throws TransformerException {
+	public synchronized void addTask(Task t) throws TransformerException {
 		Element rootElement = null;
 		NodeList nodelist = docTasks.getElementsByTagName("tasks");
 
@@ -185,23 +194,19 @@ public class Server {
 		StreamResult result = new StreamResult(new File("BD/tasks.xml"));
 		transformer.transform(source, result);
 
-		this.observableListTasks.add(t);
-	}
-
-	public ObservableList<Task> getObservableListTasks() {
-		return observableListTasks;
+		this.lTasks.add(t);
 	}
 
 	// Add keyword to the observable map
-	public String addUser(String name, String pw) throws TransformerException {
+	public synchronized String addUser(String name, String pw) throws TransformerException {
 		Element rootElement = null;
 		NodeList nodelist = docUsers.getElementsByTagName("users");
-		for(User u : this.observableListUsers){
+		for(User u : this.lUsers){
 			if(u.getUsername().equals(name)){
-				return "Username already exists";
+				return "Username already exists\n";
 			}
 		}
-		
+
 		if (nodelist.getLength() >= 0) {
 			rootElement = (Element) nodelist.item(0);
 		} else {
@@ -232,13 +237,10 @@ public class Server {
 		StreamResult result = new StreamResult(new File("BD/users.xml"));
 		transformer.transform(source, result);
 
-		this.observableListUsers.add(new User(name, this.observableListUsers.size()));
+		this.lUsers.add(new User(name, this.lUsers.size()));
 		return "registered\n";
 	}
 
-	public ObservableList<User> getObservableListUsers() {
-		return observableListUsers;
-	}
 
 	public User connect(String name, String pw) {
 		// Verify user and password from xml
@@ -250,12 +252,12 @@ public class Server {
 			Document doc = docBuilder.parse(new File("BD/users.xml"));
 
 			Element user = getUser(doc, name);
-			
+
 			if(user!=null){
 
 				if (pw.equals(user.getElementsByTagName("password").item(0).getTextContent())) {
 					// Get User object
-					for (User u : this.getObservableListUsers()) {
+					for (User u : this.lUsers) {
 						if (u.getUsername().equals(name)) {
 							System.out.println("User found");
 							return u;
@@ -292,14 +294,38 @@ public class Server {
 	public static void main(String argv[]) throws Exception {
 		Server s = new Server();
 
-		ServerSocket welcomeSocket = new ServerSocket(6789);
+		welcomeSocket = new ServerSocket(6789);
 
 		while (true) {
-
 			Socket connectionSocket = welcomeSocket.accept();
 			System.out.println("New Client");
 			new Thread(new ServerThread(connectionSocket, s)).start();
-
 		}
+	}
+
+
+	public synchronized void editTask(Task t) {
+		// TODO Auto-generated method stub
+		Task tEdit = this.lTasks.get(t.getId());
+		tEdit.setCreationDate(t.getCreationDate());
+		tEdit.setDeadLine(t.getDeadline());
+		tEdit.setDescription(t.getDescription());
+		tEdit.setPerformer(t.getPerformer());
+		tEdit.setPriority(t.getPriority());
+		tEdit.setState(t.getState());
+		tEdit.setTitle(t.getTitle());
+	}
+
+
+	public synchronized void removeTask(int t) {
+		this.lTasks.remove(t);
+
+		Element rootElement = null;
+		NodeList tasks = docTasks.getElementsByTagName("task");
+		rootElement = (Element) docTasks.getElementsByTagName("tasks").item(0);
+
+		Element task = (Element) tasks.item(t);
+
+		rootElement.removeChild(task);
 	}
 }

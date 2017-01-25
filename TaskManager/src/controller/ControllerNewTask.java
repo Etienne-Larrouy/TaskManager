@@ -26,7 +26,7 @@ import model.User;
 import server.Client;
 
 public class ControllerNewTask implements Initializable {
-	private Client s;
+	private Client c;
 
 	@FXML
 	private Button NewTask_createTask;
@@ -63,17 +63,16 @@ public class ControllerNewTask implements Initializable {
 				NewTask_statusbar.setText("Deadline is empty, choose a deadLine");
 			}
 			else{
-	
 				//Create new Task and send it to the server
 				Task t1 = new Task(NewTask_name.getText() , 
 						NewTask_description.getText() , 
-						s.getUserSession(), 
-						s.getObservableListUsers().get(NewTask_performer.getSelectionModel().getSelectedIndex()), 
+						c.getUserSession(), 
+						c.getObservableListUsers().get(NewTask_performer.getSelectionModel().getSelectedIndex()), 
 						NewTask_priority.getSelectionModel().getSelectedItem(), 
 						NewTask_deadline.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-						s.getObservableListTasks().size());
+						c.getObservableListTasks().size());
 				try {
-					s.addTask(t1);
+					c.addTask(t1);
 				} catch (TransformerException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -98,10 +97,11 @@ public class ControllerNewTask implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		s = Client.getInstance();
+		c = Client.getInstance();
 		
+		c.getUsers();
 		//Add users to choices
-		for(User u : s.getObservableListUsers()){
+		for(User u : c.getObservableListUsers()){
 			NewTask_performer.getItems().add(u.getUsername());
 		}
 	

@@ -15,13 +15,23 @@ import sun.reflect.annotation.TypeAnnotation.LocationInfo.Location;
 public class User implements Serializable {
 	private int id;
 
-	transient private StringProperty username = new SimpleStringProperty();
+
+	private StringProperty username;
 
 	public User(String username, int id) {
+		this.username = new SimpleStringProperty();
 		this.username.set(username);
 		this.id = id;
 	}
+	public int getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	
 	/* Getters and setters */
 	public final String getUsername() {
 		return this.username.get();
@@ -32,16 +42,22 @@ public class User implements Serializable {
 	}
 
 	private void writeObject(ObjectOutputStream oos) throws IOException {
-		oos.writeUTF(this.getUsername());
+		oos.writeObject(this.getUsername());
 		oos.writeInt(this.id);
 
 	}
 
 	private void readObject(ObjectInputStream in) throws IOException {
-
-		System.out.println(in.readUTF());
+		this.username = new SimpleStringProperty();
+		try {
+		
+			this.username.set((String)in.readObject());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
 		this.id = in.readInt();
-
 	}
 
 }

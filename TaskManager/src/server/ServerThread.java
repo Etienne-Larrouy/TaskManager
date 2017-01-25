@@ -4,16 +4,20 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import javax.xml.transform.TransformerException;
+
+import model.Task;
 
 public class ServerThread implements Runnable{
 	private BufferedReader inFromClient = null;
 
 	private DataOutputStream outToClient = null;
 	private ObjectOutputStream objectOutput = null;
+	private ObjectInputStream objectInput = null;
 
 	private Server s;
 
@@ -22,7 +26,8 @@ public class ServerThread implements Runnable{
 		try {
 			inFromClient =  new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 			outToClient = new DataOutputStream(connectionSocket.getOutputStream());
-			objectOutput = new ObjectOutputStream(outToClient);
+			objectOutput = new ObjectOutputStream(connectionSocket.getOutputStream());
+			objectInput = new ObjectInputStream(connectionSocket.getInputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,17 +45,30 @@ public class ServerThread implements Runnable{
 				System.out.println("Recu : " + clientSentence);
 				String[] parts = clientSentence.split(" ");
 				switch(parts[0]){
-
+				case "removeTask":
+					s.removeTask(Integer.parseInt(parts[1]));
+					break;
 				case "getUsers":
-					objectOutput.writeObject(s.getObservableListTasks());
+					objectOutput.writeObject(s.getlUsers());
 					break;
 				case "getTasks":
-
-					objectOutput.writeObject(s.getObservableListUsers());
+					objectOutput.writeObject(s.getlTasks(parts[1]));
 					break;
 				case "editTask":
+					try {
+						s.editTask((Task)objectInput.readObject());
+					} catch (ClassNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					break;
 				case "addTask":
+					try {
+						s.addTask((Task)objectInput.readObject());
+					} catch (ClassNotFoundException | TransformerException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					break;
 				case "signUp":
 					System.out.println("Sign up");
@@ -73,7 +91,6 @@ public class ServerThread implements Runnable{
 					break;
 				}
 
-				outToClient.writeBytes(clientSentence);
 			}
 
 

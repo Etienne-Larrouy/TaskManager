@@ -62,11 +62,13 @@ public class ControllerApp implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		s = Client.getInstance();
+		//Load tasks
+		Client.getInstance().getTasks();
+		
 		int id = 0;
 		//Add existing tasks
-		for (Task t : s.getObservableListTasks()) {
-			if(t.getOwner().equals(s.getUserSession()) || t.getPerformer().equals(s.getUserSession())){
+		for (Task t : Client.getInstance().getObservableListTasks()) {
+			
 				try {
 
 					GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
@@ -93,12 +95,12 @@ public class ControllerApp implements Initializable{
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
+		
 			
 			id++;
 		}
 
-		s.getObservableListTasks().addListener((ListChangeListener<Task>) change -> {
+		Client.getInstance().getObservableListTasks().addListener((ListChangeListener<Task>) change -> {
 			if(App_flowPane!=null) {
 				//TODO
 				//				while (change.next()) {

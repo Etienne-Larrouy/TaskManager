@@ -5,10 +5,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.TransformerException;
@@ -20,21 +20,20 @@ import model.User;
 
 public final class Client {
 
-	private List<Task> lTache = new ArrayList<Task>();
 
 	// Now add observability by wrapping it with ObservableList.
-	private ObservableList<Task> observableListTasks = FXCollections.observableList(lTache);
+	private ObservableList<Task> observableListTasks;
 
 	private User userSession;
-	private List<User> lUsers = new ArrayList<User>();
 
 	// Now add observability by wrapping it with ObservableList.
-	private ObservableList<User> observableListUsers = FXCollections.observableList(lUsers);
+	private ObservableList<User> observableListUsers;
 
 	private final static Client clientInstance = new Client();
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
 	private  ObjectInputStream oiStream;
+	private  ObjectOutputStream ooStream;
 
 	public static Client getInstance() {
 		return clientInstance;
@@ -45,10 +44,10 @@ public final class Client {
 		Socket clientSocket;
 		try {
 			clientSocket = new Socket("localhost", 6789);
-			outToServer = new DataOutputStream(clientSocket.getOutputStream());
 			inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			outToServer = new DataOutputStream(clientSocket.getOutputStream());
 			oiStream = new ObjectInputStream(clientSocket.getInputStream());
-
+			ooStream = new ObjectOutputStream(clientSocket.getOutputStream());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,11 +56,12 @@ public final class Client {
 	}
 
 	// Load users from xml
+	@SuppressWarnings("unchecked")
 	public void getUsers() {
 		// get all user nodes
 		try {
-			outToServer.writeBytes("getUsers\n");
-			this.observableListUsers = (ObservableList<User>) oiStream.readObject();
+			outToServer.writeBytes("getUsers "+userSession.getUsername()+"\n");
+			this.observableListUsers = FXCollections.observableList((List<User>) oiStream.readObject());
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,17 +89,18 @@ public final class Client {
 	}
 
 	// Load users from xml
+	@SuppressWarnings("unchecked")
 	public void getTasks() {
 		// get all tasks nodes
 		try {
-			outToServer.writeBytes("getUsers\n");
-			this.observableListTasks = (ObservableList<Task>) oiStream.readObject();
-			outToServer.flush();
+			outToServer.writeBytes("getTasks "+userSession.getUsername()+"\n");
+			this.observableListTasks = FXCollections.observableList((List<Task>) oiStream.readObject());
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
 
 	public String signUp(String username, String pw){
 		try {
@@ -120,10 +121,9 @@ public final class Client {
 			e.printStackTrace();
 		}
 		try {
-			outToServer.writeBytes("signUp "+username+" "+pw+"\n");
-			outToServer.flush();
-			return inFromServer.readLine();
 			
+			outToServer.writeBytes("signUp "+username+" "+pw+"\n");
+			return inFromServer.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -142,9 +142,15 @@ public final class Client {
 		return null;
 	}
 
-	// Add keyword to the observable map
+	// Sen new task to the serve
 	public void addTask(Task t) throws TransformerException {
-
+		try {
+			outToServer.writeBytes("addTask\n");
+			ooStream.writeObject(t);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// Init user session
@@ -167,6 +173,16 @@ public final class Client {
 
 	public ObservableList<User> getObservableListUsers() {
 		return observableListUsers;
+	}
+
+	public void editTask(Task t) {
+		try {
+			outToServer.writeBytes("editTask\n");
+			ooStream.writeObject(t);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
