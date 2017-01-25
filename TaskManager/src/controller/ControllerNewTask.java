@@ -18,6 +18,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -110,6 +111,17 @@ public class ControllerNewTask implements Initializable {
 		//Select first choice
 		NewTask_performer.getSelectionModel().selectFirst();
 		NewTask_priority.getSelectionModel().selectFirst();
+	}
+	
+	@FXML
+	public void handleReturn(MouseEvent event) throws IOException{
+		Stage stage = null;
+		Parent root = null;
+		stage = (Stage) NewTask_createTask.getScene().getWindow();
+		root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 }

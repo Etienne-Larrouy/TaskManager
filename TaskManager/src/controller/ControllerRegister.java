@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.User;
@@ -107,6 +108,17 @@ public class ControllerRegister implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@FXML
+	public void handleReturn(MouseEvent event) throws IOException{
+		Stage stage = null;
+		Parent root = null;
+		stage = (Stage) Register_register.getScene().getWindow();
+		root = FXMLLoader.load(getClass().getResource("../view/TaskManager.fxml"));
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 }

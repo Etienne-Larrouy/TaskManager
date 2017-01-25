@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -61,5 +64,16 @@
             <Insets top="5.0" />
          </GridPane.margin>
       </ImageView>
+      <MenuButton fx:id="App_Options" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Options">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+          <MenuItem mnemonicParsing="false" text="Action 2" />
+        </items>
+      </MenuButton>
+      <Button fx:id="App_printButton" mnemonicParsing="false" onAction="#handlePrint" text="Button" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets left="100.0" />
+         </GridPane.margin>
+      </Button>
    </children>
 </GridPane>
