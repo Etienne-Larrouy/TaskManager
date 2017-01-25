@@ -104,5 +104,13 @@
             <Insets top="50.0" />
          </GridPane.margin>
       </Text>
+      <ImageView fx:id="Register_return" fitHeight="116.0" fitWidth="146.0" onMouseClicked="#handleReturn" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <image>
+            <Image url="@../image/retour.gif" />
+         </image>
+         <GridPane.margin>
+            <Insets right="20.0" top="50.0" />
+         </GridPane.margin>
+      </ImageView>
    </children>
 </GridPane>
