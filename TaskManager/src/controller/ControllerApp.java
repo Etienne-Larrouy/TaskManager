@@ -66,13 +66,12 @@ public class ControllerApp implements Initializable {
 
 	@FXML
 	private MenuItem App_About;
-	
+
 	@FXML
 	private Button App_printButton;
-	
+
 	@FXML
 	private GridPane App_main;
-
 
 	@FXML
 	public void createNewTask(MouseEvent event) throws IOException {
@@ -89,9 +88,9 @@ public class ControllerApp implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//Load tasks
+		// Load tasks
 		Client.getInstance().getTasks();
-		
+
 		EventHandler<ActionEvent> action = menuItemAction();
 
 		App_Print = new MenuItem("Print");
@@ -104,59 +103,80 @@ public class ControllerApp implements Initializable {
 		App_Print.setOnAction(action);
 		App_Disconnection.setOnAction(action);
 		App_About.setOnAction(action);
-		
+
 		int id = 0;
-		//Add existing tasks
+		// Add existing tasks
 		for (Task t : Client.getInstance().getObservableListTasks()) {
-			
-				try {
 
-					GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
+			try {
 
-					// Set text to labels
-					((Label) tache.getChildren().get(0)).setText(t.getTitle());
-					((Label) tache.getChildren().get(1)).setText(t.getOwner().getUsername());
-					((Label) tache.getChildren().get(2)).setText(t.getState());
-					((Label) tache.getChildren().get(3)).setText(t.getDeadline());
-					((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
-					((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
-					((Text) tache.getChildren().get(6)).setText(Integer.toString(id));
+				GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
 
-					// Bind label to model
-					t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
-					t.getOwner().getUsernameProperty().bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
-					t.getStateProperty().bindBidirectional(((Label) tache.getChildren().get(2)).textProperty());
-					t.getDeadLineProperty().bindBidirectional(((Label) tache.getChildren().get(3)).textProperty());
-					t.getPerformer().getUsernameProperty().bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
-					t.getCreationDateProperty().bindBidirectional(((Label) tache.getChildren().get(5)).textProperty());
+				// Set text to labels
+				((Label) tache.getChildren().get(0)).setText(t.getTitle());
+				((Label) tache.getChildren().get(1)).setText(t.getOwner().getUsername());
+				((Label) tache.getChildren().get(2)).setText(t.getState());
+				((Label) tache.getChildren().get(3)).setText(t.getDeadline());
+				((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
+				((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
+				((Text) tache.getChildren().get(6)).setText(Integer.toString(id));
 
-					// Add task to FlowPanel
-					App_flowPane.getChildren().add(tache);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		
-			
+				// Bind label to model
+				t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
+				t.getOwner().getUsernameProperty()
+						.bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
+				t.getStateProperty().bindBidirectional(((Label) tache.getChildren().get(2)).textProperty());
+				t.getDeadLineProperty().bindBidirectional(((Label) tache.getChildren().get(3)).textProperty());
+				t.getPerformer().getUsernameProperty()
+						.bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
+				t.getCreationDateProperty().bindBidirectional(((Label) tache.getChildren().get(5)).textProperty());
+
+				// Add task to FlowPanel
+				App_flowPane.getChildren().add(tache);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
 			id++;
 		}
 
 		Client.getInstance().getObservableListTasks().addListener((ListChangeListener<Task>) change -> {
-			if(App_flowPane!=null) {
-				//TODO
-				//				while (change.next()) {
-				//					// for (Note remitem : change.getRemoved()) {
-				//					// System.out.println("suppr");
-				//					// }
-				//					for (Task t : change.getAddedSubList()) {
-				//						
-				//					}
+			if (App_flowPane != null) {
+				// TODO
+				// while (change.next()) {
+				// // for (Note remitem : change.getRemoved()) {
+				// // System.out.println("suppr");
+				// // }
+				// for (Task t : change.getAddedSubList()) {
 				//
-				//				}
+				// }
+				//
+				// }
 			}
 		});
 	}
-	
-		@FXML
+
+	private EventHandler<ActionEvent> menuItemAction() {
+		return new EventHandler<ActionEvent>() {
+
+			public void handle(ActionEvent event) {
+				MenuItem mItem = (MenuItem) event.getSource();
+				switch (mItem.getText()) {
+				case "Print":
+					System.out.println("print");
+					break;
+				case "Disconnection":
+					System.out.println("Disconnection");
+					break;
+				case "About":
+					System.out.println("About");
+					break;
+				}
+			}
+		};
+	}
+
+	@FXML
 	public void handlePrint(ActionEvent event) throws IOException {
 		final PrinterJob printerJob = PrinterJob.createPrinterJob();
 		// Affichage de la boite de dialog de configuration de l'impression.
