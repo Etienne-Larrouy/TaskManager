@@ -15,7 +15,10 @@ import javafx.print.PageLayout;
 import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -58,8 +61,6 @@ public class ControllerApp implements Initializable {
 	@FXML
 	private MenuButton App_Options;
 
-	@FXML
-	private MenuItem App_Print;
 
 	@FXML
 	private MenuItem App_Disconnection;
@@ -93,16 +94,17 @@ public class ControllerApp implements Initializable {
 
 		EventHandler<ActionEvent> action = menuItemAction();
 
-		App_Print = new MenuItem("Print");
+		
 		App_Disconnection = new MenuItem("Disconnection");
 		App_About = new MenuItem("About");
 
 		App_Options.getItems().clear();
-		App_Options.getItems().addAll(App_Print, App_About, App_Disconnection);
+		App_Options.getItems().addAll(App_About, App_Disconnection);
 
-		App_Print.setOnAction(action);
 		App_Disconnection.setOnAction(action);
 		App_About.setOnAction(action);
+		
+		App_printButton.setText("Print");
 
 		int id = 0;
 		// Add existing tasks
@@ -162,14 +164,16 @@ public class ControllerApp implements Initializable {
 			public void handle(ActionEvent event) {
 				MenuItem mItem = (MenuItem) event.getSource();
 				switch (mItem.getText()) {
-				case "Print":
-					System.out.println("print");
-					break;
 				case "Disconnection":
 					System.out.println("Disconnection");
 					break;
 				case "About":
 					System.out.println("About");
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("About");
+					alert.setHeaderText(null);
+					alert.setContentText("Programmation réseau - ENSIM 2016/2017");
+					alert.showAndWait();
 					break;
 				}
 			}
