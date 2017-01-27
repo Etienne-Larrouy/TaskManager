@@ -185,5 +185,17 @@ public final class Client {
 		}
 	}
 
+	public void removeTask(Task currentTask) {
+		// TODO Auto-generated method stub
+		try {
+			outToServer.writeBytes("removeTask "+currentTask.getId()+"\n");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.getTasks();
+	}
+
 
 }

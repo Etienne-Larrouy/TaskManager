@@ -45,7 +45,7 @@
             <Insets top="95.0" />
          </GridPane.margin>
       </Line>
-      <AnchorPane prefHeight="367.0" prefWidth="577.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
+      <AnchorPane fx:id="removeButton" prefHeight="367.0" prefWidth="577.0" GridPane.columnSpan="3" GridPane.rowIndex="2">
          <children>
             <Label layoutX="39.0" layoutY="5.0" text="Title :">
                <font>
@@ -107,6 +107,7 @@
                   <Image url="@../image/retour.gif" />
                </image>
             </ImageView>
+            <Button fx:id="handleRemove" disable="true" layoutX="432.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleRemove" prefHeight="51.0" prefWidth="239.0" text="Remove" visible="false" />
          </children>
       </AnchorPane>
       <ImageView fitHeight="76.0" fitWidth="227.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">

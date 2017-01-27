@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -306,31 +307,89 @@ public class Server {
 
 
 	public synchronized void editTask(Task t) {
-		// TODO Auto-generated method stub
-		Task tEdit = this.lTasks.get(t.getId());
-		tEdit.setCreationDate(t.getCreationDate());
-		tEdit.setDeadLine(t.getDeadline());
-		tEdit.setDescription(t.getDescription());
-		tEdit.setPerformer(t.getPerformer());
-		tEdit.setPriority(t.getPriority());
-		tEdit.setState(t.getState());
-		tEdit.setTitle(t.getTitle());
+
+		try {
+			Task tEdit = this.lTasks.get(t.getId());
+			tEdit.setCreationDate(t.getCreationDate());
+			tEdit.setDeadLine(t.getDeadline());
+			tEdit.setDescription(t.getDescription());
+			tEdit.setPerformer(t.getPerformer());
+			tEdit.setPriority(t.getPriority());
+			tEdit.setState(t.getState());
+			tEdit.setTitle(t.getTitle());
+
+		
+			NodeList nodelist = docTasks.getElementsByTagName("task");
+		
+			Element task = (Element)nodelist.item(t.getId());
+		
+
+			// title element
+			task.getChildNodes().item(0).setTextContent(t.getTitle());
+
+			// author element
+			task.getChildNodes().item(1).setTextContent(t.getOwner().getUsername());
+
+			// performer element
+			task.getChildNodes().item(2).setTextContent(t.getPerformer().getUsername());
+
+			// deadline element
+			task.getChildNodes().item(3).setTextContent(t.getDeadline());
+
+			// creationDate element
+			task.getChildNodes().item(4).setTextContent(t.getCreationDate());
+
+			// state element
+			task.getChildNodes().item(5).setTextContent(t.getState());
+
+			// priority element
+			task.getChildNodes().item(6).setTextContent(t.getPriority());
+
+			// description element
+			task.getChildNodes().item(6).setTextContent(t.getDescription());
+
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+
+			Transformer transformer = transformerFactory.newTransformer();
+
+			DOMSource source = new DOMSource(docTasks);
+			StreamResult result = new StreamResult(new File("BD/tasks.xml"));
+			transformer.transform(source, result);
+
+			transformer = transformerFactory.newTransformer();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 
 	public synchronized void removeTask(int t) {
-		this.lTasks.remove(t);
+		try {
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
-		Element rootElement = null;
-		NodeList tasks = docTasks.getElementsByTagName("task");
-		rootElement = (Element) docTasks.getElementsByTagName("tasks").item(0);
-		
-		for(int i = 0; i<tasks.getLength(); i++){
-			System.out.println(tasks.item(i).getNodeName());
+			Transformer transformer = transformerFactory.newTransformer();
+
+			this.lTasks.remove(t);
+
+			Element rootElement = null;
+			rootElement = (Element) docTasks.getElementsByTagName("tasks").item(0);
+
+			Node task = rootElement.getChildNodes().item(t);
+
+			rootElement.removeChild(task);
+
+			DOMSource source = new DOMSource(docTasks);
+			StreamResult result = new StreamResult(new File("BD/tasks.xml"));
+			transformer.transform(source, result);
+
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		Element task = (Element) tasks.item(t);
-
-		rootElement.removeChild(task);
 	}
 }
