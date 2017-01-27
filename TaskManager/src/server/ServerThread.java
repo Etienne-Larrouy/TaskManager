@@ -18,12 +18,13 @@ public class ServerThread implements Runnable{
 	private DataOutputStream outToClient = null;
 	private ObjectOutputStream objectOutput = null;
 	private ObjectInputStream objectInput = null;
-
+	private Socket connectionSocket;
 	private Server s;
 
 	public ServerThread(Socket connectionSocket, Server s) {
 		this.s = s;
 		try {
+			this.connectionSocket = connectionSocket;
 			inFromClient =  new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 			outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 			objectOutput = new ObjectOutputStream(connectionSocket.getOutputStream());
@@ -95,8 +96,7 @@ public class ServerThread implements Runnable{
 
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Client fermé");
 		}
 
 

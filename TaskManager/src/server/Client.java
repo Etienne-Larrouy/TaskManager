@@ -34,14 +34,15 @@ public final class Client {
 	private BufferedReader inFromServer;
 	private  ObjectInputStream oiStream;
 	private  ObjectOutputStream ooStream;
-
+	private Socket clientSocket;
+	
 	public static Client getInstance() {
 		return clientInstance;
 	}
 
 	private Client() {
 
-		Socket clientSocket;
+		
 		try {
 			clientSocket = new Socket("localhost", 6789);
 			inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -180,21 +181,27 @@ public final class Client {
 			outToServer.writeBytes("editTask\n");
 			ooStream.writeObject(t);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public void removeTask(Task currentTask) {
-		// TODO Auto-generated method stub
 		try {
 			outToServer.writeBytes("removeTask "+currentTask.getId()+"\n");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		this.getTasks();
+	}
+
+	public void disconnect() {
+		try {
+			clientSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
