@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -56,6 +57,9 @@ public class ControllerEditTask implements Initializable {
 
 	@FXML
 	private DatePicker EditTask_deadline;
+	
+	@FXML
+	private Button handleRemove;
 
 	@FXML
 	private ComboBox<String> EditTask_performer;
@@ -109,9 +113,8 @@ public class ControllerEditTask implements Initializable {
 	@FXML
 	public void handleRemove(ActionEvent event) throws IOException {
 	
-
+		Client.getInstance().removeTask(currentTask);
 		stage = (Stage) EditTask_description.getScene().getWindow();
-	
 		stage.close();
 	}
 
@@ -141,6 +144,8 @@ public class ControllerEditTask implements Initializable {
 			break;
 		case "Finished":
 			EditTask_state_finished.setSelected(true);
+			handleRemove.setVisible(true);
+			handleRemove.setDisable(false);
 			break;
 		}
 		
