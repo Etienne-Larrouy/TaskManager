@@ -102,7 +102,7 @@
                   <Font size="24.0" />
                </font>
             </Button>
-            <ImageView fx:id="NewTask_return" fitHeight="65.0" fitWidth="110.0" layoutX="670.0" layoutY="314.0" onMouseClicked="#handleReturn" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="NewTask_return" fitHeight="65.0" fitWidth="110.0" layoutX="670.0" layoutY="314.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../image/retour.gif" />
                </image>

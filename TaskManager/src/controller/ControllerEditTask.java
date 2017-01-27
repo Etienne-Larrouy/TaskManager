@@ -105,6 +105,15 @@ public class ControllerEditTask implements Initializable {
 		}
 
 	}
+	
+	@FXML
+	public void handleRemove(ActionEvent event) throws IOException {
+	
+
+		stage = (Stage) EditTask_description.getScene().getWindow();
+	
+		stage.close();
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {

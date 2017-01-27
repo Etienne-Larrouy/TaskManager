@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -323,6 +324,10 @@ public class Server {
 		Element rootElement = null;
 		NodeList tasks = docTasks.getElementsByTagName("task");
 		rootElement = (Element) docTasks.getElementsByTagName("tasks").item(0);
+		
+		for(int i = 0; i<tasks.getLength(); i++){
+			System.out.println(tasks.item(i).getNodeName());
+		}
 
 		Element task = (Element) tasks.item(t);
 
