@@ -38,7 +38,7 @@
             <Insets top="30.0" />
          </GridPane.margin>
       </Line>
-      <TextField fx:id="App_search" promptText="Search" GridPane.rowIndex="1">
+      <TextField fx:id="App_search" onAction="#handleSearch" promptText="Search" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" top="20.0" />
          </GridPane.margin>

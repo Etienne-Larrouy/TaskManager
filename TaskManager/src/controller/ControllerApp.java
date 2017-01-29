@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -18,7 +19,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -31,6 +35,9 @@ public class ControllerApp implements Initializable {
 
 	@FXML
 	private FlowPane App_flowPane;
+
+	@FXML
+	private TextField App_search;
 
 	@FXML
 	private Label PreviewTask_Title;
@@ -180,14 +187,50 @@ public class ControllerApp implements Initializable {
 	}
 
 	@FXML
+	public void handleSearch(ActionEvent event) throws IOException {
+		App_flowPane.getChildren().remove(0, App_flowPane.getChildren().size());
+
+		int id = 0;
+		for (Task t : Client.getInstance().getObservableListTasks()) {
+			if(t.getState().contains(App_search.getText()) || t.getPriority().contains(App_search.getText()) || t.getPerformer().getUsername().contains(App_search.getText()) || t.getDescription().contains(App_search.getText()) || t.getTitle().contains(App_search.getText()) || App_search.getText().isEmpty()){
+				GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
+
+				// Set text to labels
+				((Label) tache.getChildren().get(0)).setText(t.getTitle());
+				((Label) tache.getChildren().get(1)).setText(t.getOwner().getUsername());
+				((Label) tache.getChildren().get(2)).setText(t.getState());
+				((Label) tache.getChildren().get(3)).setText(t.getDeadline());
+				((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
+				((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
+				((Text) tache.getChildren().get(6)).setText(Integer.toString(id));
+
+				// Bind label to model
+				t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
+				t.getOwner().getUsernameProperty()
+				.bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
+				t.getStateProperty().bindBidirectional(((Label) tache.getChildren().get(2)).textProperty());
+				t.getDeadLineProperty().bindBidirectional(((Label) tache.getChildren().get(3)).textProperty());
+				t.getPerformer().getUsernameProperty()
+				.bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
+				t.getCreationDateProperty().bindBidirectional(((Label) tache.getChildren().get(5)).textProperty());
+
+				// Add task to FlowPanel
+				App_flowPane.getChildren().add(tache);
+			}
+			id++;
+		}
+
+	}
+
+	@FXML
 	public void handlePrint(ActionEvent event) throws IOException {
 		final PrinterJob printerJob = PrinterJob.createPrinterJob();
 		// Affichage de la boite de dialog de configuration de l'impression.
 		if (printerJob.showPrintDialog(App_printButton.getScene().getWindow())) {
-//			final JobSettings settings = printerJob.getJobSettings();
-//			final PageLayout pageLayout = settings.getPageLayout();
-//			final double pageWidth = pageLayout.getPrintableWidth();
-//			final double pageHeight = pageLayout.getPrintableHeight();
+			//			final JobSettings settings = printerJob.getJobSettings();
+			//			final PageLayout pageLayout = settings.getPageLayout();
+			//			final double pageWidth = pageLayout.getPrintableWidth();
+			//			final double pageHeight = pageLayout.getPrintableHeight();
 			if (printerJob.printPage(App_printButton.getParent())) {
 				System.out.println("test2");
 				printerJob.endJob();
