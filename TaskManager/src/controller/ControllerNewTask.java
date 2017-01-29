@@ -34,22 +34,22 @@ public class ControllerNewTask implements Initializable {
 
 	@FXML
 	private AnchorPane NewTask_Pane;
-	
+
 	@FXML
 	private ComboBox<String> NewTask_performer;
-	
+
 	@FXML
 	private TextField NewTask_name;
-	
+
 	@FXML
 	private TextArea NewTask_description;
-	
+
 	@FXML
 	private ComboBox<String> NewTask_priority;
-	
+
 	@FXML
 	private DatePicker NewTask_deadline;
-	
+
 	@FXML
 	private Text NewTask_statusbar;
 
@@ -57,19 +57,15 @@ public class ControllerNewTask implements Initializable {
 	public void createTask(ActionEvent event) throws IOException {
 
 		if (event.getSource() == NewTask_createTask) {
-			if(NewTask_name.getText().isEmpty()){
+			if (NewTask_name.getText().isEmpty()) {
 				NewTask_statusbar.setText("Title empty, choose a title");
-			}
-			else if(NewTask_deadline.getValue()==null){
+			} else if (NewTask_deadline.getValue() == null) {
 				NewTask_statusbar.setText("Deadline is empty, choose a deadLine");
-			}
-			else{
-				//Create new Task and send it to the server
-				Task t1 = new Task(NewTask_name.getText() , 
-						NewTask_description.getText() , 
-						c.getUserSession(), 
-						c.getObservableListUsers().get(NewTask_performer.getSelectionModel().getSelectedIndex()), 
-						NewTask_priority.getSelectionModel().getSelectedItem(), 
+			} else {
+				// Create new Task and send it to the server
+				Task t1 = new Task(NewTask_name.getText(), NewTask_description.getText(), c.getUserSession(),
+						c.getObservableListUsers().get(NewTask_performer.getSelectionModel().getSelectedIndex()),
+						NewTask_priority.getSelectionModel().getSelectedItem(),
 						NewTask_deadline.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
 						c.getObservableListTasks().size());
 				try {
@@ -78,10 +74,8 @@ public class ControllerNewTask implements Initializable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	
-				
-				
-				//Change scene
+
+				// Change scene
 				Stage stage = null;
 				Parent root = null;
 				stage = (Stage) NewTask_createTask.getScene().getWindow();
@@ -92,29 +86,28 @@ public class ControllerNewTask implements Initializable {
 			}
 		}
 
-		
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
 		c = Client.getInstance();
-		
+
 		c.getUsers();
-		//Add users to choices
-		for(User u : c.getObservableListUsers()){
+		// Add users to choices
+		for (User u : c.getObservableListUsers()) {
 			NewTask_performer.getItems().add(u.getUsername());
 		}
-	
+
 		NewTask_priority.getItems().addAll("Low", "Normal", "High", "Urgent");
-		
-		//Select first choice
+
+		// Select first choice
 		NewTask_performer.getSelectionModel().selectFirst();
 		NewTask_priority.getSelectionModel().selectFirst();
 	}
-	
+
 	@FXML
-	public void handleReturn(MouseEvent event) throws IOException{
+	public void handleReturn(MouseEvent event) throws IOException {
 		Stage stage = null;
 		Parent root = null;
 		stage = (Stage) NewTask_createTask.getScene().getWindow();

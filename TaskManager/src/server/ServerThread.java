@@ -13,7 +13,7 @@ import javax.xml.transform.TransformerException;
 import model.Task;
 import model.User;
 
-public class ServerThread implements Runnable{
+public class ServerThread implements Runnable {
 	private BufferedReader inFromClient = null;
 
 	private DataOutputStream outToClient = null;
@@ -27,7 +27,7 @@ public class ServerThread implements Runnable{
 		this.s = s;
 		try {
 			this.connectionSocket = connectionSocket;
-			inFromClient =  new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+			inFromClient = new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
 			outToClient = new DataOutputStream(connectionSocket.getOutputStream());
 			objectOutput = new ObjectOutputStream(connectionSocket.getOutputStream());
 			objectInput = new ObjectInputStream(connectionSocket.getInputStream());
@@ -43,11 +43,11 @@ public class ServerThread implements Runnable{
 		// TODO Auto-generated method stub
 		String clientSentence;
 		try {
-			while(!connectionSocket.isClosed()){
+			while (!connectionSocket.isClosed()) {
 				clientSentence = inFromClient.readLine();
 				System.out.println("Recu : " + clientSentence);
 				String[] parts = clientSentence.split(" ");
-				switch(parts[0]){
+				switch (parts[0]) {
 				case "disconnect":
 					System.out.println("Fin du client");
 					this.s.disconnectUser(u);
@@ -64,7 +64,7 @@ public class ServerThread implements Runnable{
 					break;
 				case "editTask":
 					try {
-						s.editTask((Task)objectInput.readObject());
+						s.editTask((Task) objectInput.readObject());
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -72,7 +72,7 @@ public class ServerThread implements Runnable{
 					break;
 				case "addTask":
 					try {
-						s.addTask((Task)objectInput.readObject());
+						s.addTask((Task) objectInput.readObject());
 					} catch (ClassNotFoundException | TransformerException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -102,7 +102,6 @@ public class ServerThread implements Runnable{
 
 			}
 
-
 		} catch (IOException e) {
 			System.out.println("Client fermé");
 			this.s.disconnectUser(u);
@@ -113,7 +112,6 @@ public class ServerThread implements Runnable{
 				e1.printStackTrace();
 			}
 		}
-
 
 	}
 

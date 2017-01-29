@@ -21,7 +21,6 @@ import model.User;
 
 public final class Client {
 
-
 	// Now add observability by wrapping it with ObservableList.
 	private ObservableList<Task> observableListTasks;
 
@@ -33,8 +32,8 @@ public final class Client {
 	private final static Client clientInstance = new Client();
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
-	private  ObjectInputStream oiStream;
-	private  ObjectOutputStream ooStream;
+	private ObjectInputStream oiStream;
+	private ObjectOutputStream ooStream;
 	private Socket clientSocket;
 
 	public static Client getInstance() {
@@ -42,7 +41,6 @@ public final class Client {
 	}
 
 	private Client() {
-
 
 		try {
 			this.initConnection();
@@ -58,7 +56,7 @@ public final class Client {
 	public void getUsers() {
 		// get all user nodes
 		try {
-			outToServer.writeBytes("getUsers "+userSession.getUsername()+"\n");
+			outToServer.writeBytes("getUsers " + userSession.getUsername() + "\n");
 			this.observableListUsers = FXCollections.observableList((List<User>) oiStream.readObject());
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -70,7 +68,7 @@ public final class Client {
 	public boolean connect(String name, String pw) {
 
 		try {
-			outToServer.writeBytes("connect "+name+" "+ pw +"\n");
+			outToServer.writeBytes("connect " + name + " " + pw + "\n");
 			outToServer.flush();
 			this.userSession = (User) oiStream.readObject();
 		} catch (IOException | ClassNotFoundException e) {
@@ -78,10 +76,9 @@ public final class Client {
 			e.printStackTrace();
 		}
 
-		if(this.userSession == null){
+		if (this.userSession == null) {
 			return false;
-		}
-		else{
+		} else {
 			return true;
 		}
 	}
@@ -91,7 +88,7 @@ public final class Client {
 	public void getTasks() {
 		// get all tasks nodes
 		try {
-			outToServer.writeBytes("getTasks "+userSession.getUsername()+"\n");
+			outToServer.writeBytes("getTasks " + userSession.getUsername() + "\n");
 			this.observableListTasks = FXCollections.observableList((List<Task>) oiStream.readObject());
 		} catch (IOException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -99,8 +96,7 @@ public final class Client {
 		}
 	}
 
-
-	public String signUp(String username, String pw){
+	public String signUp(String username, String pw) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("MD5");
 			// Add password bytes to digest
@@ -120,7 +116,7 @@ public final class Client {
 		}
 		try {
 
-			outToServer.writeBytes("signUp "+username+" "+pw+"\n");
+			outToServer.writeBytes("signUp " + username + " " + pw + "\n");
 			return inFromServer.readLine();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -129,7 +125,6 @@ public final class Client {
 		return "Server error";
 
 	}
-
 
 	public User getUserFromUsername(String username) {
 		for (User u : this.getObservableListUsers()) {
@@ -184,7 +179,7 @@ public final class Client {
 
 	public void removeTask(Task currentTask) {
 		try {
-			outToServer.writeBytes("removeTask "+currentTask.getId()+"\n");
+			outToServer.writeBytes("removeTask " + currentTask.getId() + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -192,7 +187,7 @@ public final class Client {
 		this.getTasks();
 	}
 
-	private void initConnection() throws UnknownHostException, IOException{
+	private void initConnection() throws UnknownHostException, IOException {
 
 		clientSocket = new Socket("localhost", 6789);
 		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -200,12 +195,11 @@ public final class Client {
 		oiStream = new ObjectInputStream(clientSocket.getInputStream());
 		ooStream = new ObjectOutputStream(clientSocket.getOutputStream());
 
-
 	}
 
 	public void disconnect() {
 		try {
-			
+
 			this.userSession = null;
 			outToServer.writeBytes("disconnect\n");
 			this.clientSocket.close();
@@ -220,6 +214,5 @@ public final class Client {
 			e.printStackTrace();
 		}
 	}
-
 
 }

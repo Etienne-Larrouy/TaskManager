@@ -10,7 +10,7 @@ import java.util.Date;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Task implements Serializable{
+public class Task implements Serializable {
 	private StringProperty title = new SimpleStringProperty();
 	private StringProperty description = new SimpleStringProperty();
 	private StringProperty state = new SimpleStringProperty();
@@ -22,8 +22,8 @@ public class Task implements Serializable{
 	private User owner;
 	private User performer;
 
-	public Task(String title, String description, User owner, User performer, String priority,
-			String deadLine, int id) {
+	public Task(String title, String description, User owner, User performer, String priority, String deadLine,
+			int id) {
 		this.setDescription(description);
 		this.setTitle(title);
 		this.setState("In Progress");
@@ -35,8 +35,8 @@ public class Task implements Serializable{
 		this.id = id;
 	}
 
-	public Task(String title, String description, User owner, User performer, String priority,
-			String deadLine, int id, String state, String creationDate) {
+	public Task(String title, String description, User owner, User performer, String priority, String deadLine, int id,
+			String state, String creationDate) {
 		this.setDescription(description);
 		this.setTitle(title);
 		this.setState(state);
@@ -44,7 +44,8 @@ public class Task implements Serializable{
 		this.setDeadLine(deadLine);
 		this.setCreationDate(creationDate);
 		this.owner = owner;
-		this.setPerformer(performer);;
+		this.setPerformer(performer);
+		;
 		this.id = id;
 	}
 
@@ -148,7 +149,7 @@ public class Task implements Serializable{
 	public final String getPriority() {
 		return this.priority.get();
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}

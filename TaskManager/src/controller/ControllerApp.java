@@ -9,8 +9,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.print.JobSettings;
-import javafx.print.PageLayout;
 import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -121,11 +119,11 @@ public class ControllerApp implements Initializable {
 				// Bind label to model
 				t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
 				t.getOwner().getUsernameProperty()
-						.bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
+				.bindBidirectional(((Label) tache.getChildren().get(1)).textProperty());
 				t.getStateProperty().bindBidirectional(((Label) tache.getChildren().get(2)).textProperty());
 				t.getDeadLineProperty().bindBidirectional(((Label) tache.getChildren().get(3)).textProperty());
 				t.getPerformer().getUsernameProperty()
-						.bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
+				.bindBidirectional(((Label) tache.getChildren().get(4)).textProperty());
 				t.getCreationDateProperty().bindBidirectional(((Label) tache.getChildren().get(5)).textProperty());
 
 				// Add task to FlowPanel
@@ -186,10 +184,10 @@ public class ControllerApp implements Initializable {
 		final PrinterJob printerJob = PrinterJob.createPrinterJob();
 		// Affichage de la boite de dialog de configuration de l'impression.
 		if (printerJob.showPrintDialog(App_printButton.getScene().getWindow())) {
-			final JobSettings settings = printerJob.getJobSettings();
-			final PageLayout pageLayout = settings.getPageLayout();
-			final double pageWidth = pageLayout.getPrintableWidth();
-			final double pageHeight = pageLayout.getPrintableHeight();
+//			final JobSettings settings = printerJob.getJobSettings();
+//			final PageLayout pageLayout = settings.getPageLayout();
+//			final double pageWidth = pageLayout.getPrintableWidth();
+//			final double pageHeight = pageLayout.getPrintableHeight();
 			if (printerJob.printPage(App_printButton.getParent())) {
 				System.out.println("test2");
 				printerJob.endJob();

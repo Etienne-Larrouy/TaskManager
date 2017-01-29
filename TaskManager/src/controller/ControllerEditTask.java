@@ -1,5 +1,4 @@
 
-
 package controller;
 
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class ControllerEditTask implements Initializable {
 
 	@FXML
 	private DatePicker EditTask_deadline;
-	
+
 	@FXML
 	private Button handleRemove;
 
@@ -73,17 +72,18 @@ public class ControllerEditTask implements Initializable {
 	}
 
 	@FXML
-	public void saveChanges(ActionEvent event){
-		
+	public void saveChanges(ActionEvent event) {
+
 		this.currentTask.setDeadLine(EditTask_deadline.getValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 		this.currentTask.setDescription(EditTask_description.getText());
-		this.currentTask.setPerformer(c.getObservableListUsers().get(EditTask_performer.getSelectionModel().getSelectedIndex()));
+		this.currentTask.setPerformer(
+				c.getObservableListUsers().get(EditTask_performer.getSelectionModel().getSelectedIndex()));
 		this.currentTask.setPriority(EditTask_priority.getSelectionModel().getSelectedItem());
-		if(EditTask_state_in_progress.isSelected())
+		if (EditTask_state_in_progress.isSelected())
 			this.currentTask.setState(EditTask_state_in_progress.getText());
-		else if(EditTask_state_suspended.isSelected())
+		else if (EditTask_state_suspended.isSelected())
 			this.currentTask.setState(EditTask_state_suspended.getText());
-		else if(EditTask_state_finished.isSelected())
+		else if (EditTask_state_finished.isSelected())
 			this.currentTask.setState(EditTask_state_finished.getText());
 		this.currentTask.setTitle(EditTask_Title.getText());
 
@@ -102,17 +102,17 @@ public class ControllerEditTask implements Initializable {
 			Scene scene = new Scene(root);
 			this.stage.setScene(scene);
 			this.stage.show();
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-	
+
 	@FXML
 	public void handleRemove(ActionEvent event) throws IOException {
-	
+
 		Client.getInstance().removeTask(currentTask);
 		stage = (Stage) EditTask_description.getScene().getWindow();
 		stage.close();
@@ -123,7 +123,7 @@ public class ControllerEditTask implements Initializable {
 		c = Client.getInstance();
 		c.getUsers();
 
-		//Radio button state
+		// Radio button state
 		final ToggleGroup group = new ToggleGroup();
 
 		EditTask_state_in_progress.setText("In Progress");
@@ -135,7 +135,7 @@ public class ControllerEditTask implements Initializable {
 		EditTask_state_finished.setText("Finished");
 		EditTask_state_finished.setToggleGroup(group);
 
-		switch(currentTask.getState()){
+		switch (currentTask.getState()) {
 		case "In Progress":
 			EditTask_state_in_progress.setSelected(true);
 			break;
@@ -148,15 +148,15 @@ public class ControllerEditTask implements Initializable {
 			handleRemove.setDisable(false);
 			break;
 		}
-		
-		//Add users to choices
-		for(User u : c.getObservableListUsers()){
+
+		// Add users to choices
+		for (User u : c.getObservableListUsers()) {
 			EditTask_performer.getItems().add(u.getUsername());
 		}
 
 		EditTask_priority.getItems().addAll("Low", "Normal", "High", "Urgent");
 
-		//Selected choice from task
+		// Selected choice from task
 		EditTask_performer.getSelectionModel().select(currentTask.getPerformer().getUsername());
 		EditTask_priority.getSelectionModel().select(currentTask.getPriority());
 
@@ -172,8 +172,6 @@ public class ControllerEditTask implements Initializable {
 
 		EditTask_Title.setText(currentTask.getTitle());
 
-
 	}
 
 }
-

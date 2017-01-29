@@ -1,19 +1,12 @@
 package controller;
 
 import java.io.IOException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ResourceBundle;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,7 +20,7 @@ import server.Client;
 
 public class Controller {
 
-	@FXML 
+	@FXML
 	private TextField TaskManager_username;
 
 	@FXML
@@ -49,7 +42,7 @@ public class Controller {
 		}
 	}
 
-	private void connect(){
+	private void connect() {
 		if (TaskManager_username.getText().isEmpty())
 			statusbar.setText("Error username is empty");
 		else if (TaskManager_password.getText().isEmpty())
@@ -82,8 +75,7 @@ public class Controller {
 
 					stage.setScene(scene);
 					stage.show();
-				}
-				else{
+				} else {
 					statusbar.setText("Wrong username, password or user already connected elsewhere");
 				}
 
@@ -93,6 +85,7 @@ public class Controller {
 
 		}
 	}
+
 	@FXML
 	public void handleConnect(ActionEvent event) {
 		this.connect();
@@ -111,23 +104,4 @@ public class Controller {
 		}
 
 	}
-
-	private Element getUser(Document doc, String username) {
-
-		// get all user nodes
-		NodeList users = doc.getElementsByTagName("user");
-		int nbUsers = users.getLength();
-
-		for (int i = 0; i < nbUsers; i++) {
-			Element user = (Element) users.item(i);
-
-			// return user if username match
-			if (user.getElementsByTagName("username").item(0).getTextContent().equals(username)) {
-				return user;
-			}
-		}
-
-		return null;
-	}
-
 }

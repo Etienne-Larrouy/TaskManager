@@ -30,7 +30,7 @@ public class Server {
 	private List<Task> lTasks = new ArrayList<Task>();
 
 	private List<User> lUsers = new ArrayList<User>();
-	
+
 	private List<User> lUsersConnected = new ArrayList<User>();
 
 	private DocumentBuilderFactory docFactory;
@@ -56,25 +56,25 @@ public class Server {
 		this.loadTasks();
 
 	}
-	
-	public void addUserConnected(User u){
+
+	public void addUserConnected(User u) {
 		this.lUsersConnected.add(u);
 	}
-	
-	public void disconnectUser(User u){
-		this.lUsersConnected.remove(u) ;
+
+	public void disconnectUser(User u) {
+		this.lUsersConnected.remove(u);
 	}
-	
-	public boolean alreadyConnected(User u){
+
+	public boolean alreadyConnected(User u) {
 		return this.lUsersConnected.contains(u);
 	}
 
 	public List<Task> getlTasks(String username) {
 		List<Task> listTasks = new ArrayList<Task>();
 
-		for(Task t : this.lTasks){
+		for (Task t : this.lTasks) {
 			System.out.println(t.getTitle());
-			if(t.getOwner().getUsername().equals(username) || t.getPerformer().getUsername().equals(username)){
+			if (t.getOwner().getUsername().equals(username) || t.getPerformer().getUsername().equals(username)) {
 				listTasks.add(t);
 			}
 		}
@@ -86,8 +86,6 @@ public class Server {
 		return lUsers;
 	}
 
-
-
 	public void loadUsers() {
 		// get all user nodes
 		NodeList users = docUsers.getElementsByTagName("user");
@@ -97,8 +95,8 @@ public class Server {
 		for (int i = 0; i < nbUsers; i++) {
 
 			Element user = (Element) users.item(i);
-			this.lUsers.add(new User(user.getElementsByTagName("username").item(0).getTextContent(),
-					this.lUsers.size()));
+			this.lUsers
+					.add(new User(user.getElementsByTagName("username").item(0).getTextContent(), this.lUsers.size()));
 		}
 
 		// get all tasks nodes
@@ -107,8 +105,8 @@ public class Server {
 
 		for (int i = 0; i < nbTasks; i++) {
 			Element task = (Element) tasks.item(i);
-			this.lUsers.add(new User(task.getElementsByTagName("username").item(0).getTextContent(),
-					this.lTasks.size()));
+			this.lUsers
+					.add(new User(task.getElementsByTagName("username").item(0).getTextContent(), this.lTasks.size()));
 		}
 	}
 
@@ -129,8 +127,8 @@ public class Server {
 			String creationDate = task.getElementsByTagName("creationDate").item(0).getTextContent();
 			String state = task.getElementsByTagName("state").item(0).getTextContent();
 			String priority = task.getElementsByTagName("priority").item(0).getTextContent();
-			this.lTasks.add(new Task(title, desc, this.getUserFromUsername(author),
-					this.getUserFromUsername(performer), priority, deadline, i, state, creationDate));
+			this.lTasks.add(new Task(title, desc, this.getUserFromUsername(author), this.getUserFromUsername(performer),
+					priority, deadline, i, state, creationDate));
 		}
 	}
 
@@ -215,8 +213,8 @@ public class Server {
 	public synchronized String addUser(String name, String pw) throws TransformerException {
 		Element rootElement = null;
 		NodeList nodelist = docUsers.getElementsByTagName("users");
-		for(User u : this.lUsers){
-			if(u.getUsername().equals(name)){
+		for (User u : this.lUsers) {
+			if (u.getUsername().equals(name)) {
 				return "Username already exists\n";
 			}
 		}
@@ -255,7 +253,6 @@ public class Server {
 		return "registered\n";
 	}
 
-
 	public User connect(String name, String pw) {
 		// Verify user and password from xml
 
@@ -267,13 +264,13 @@ public class Server {
 
 			Element user = getUser(doc, name);
 
-			if(user!=null){
+			if (user != null) {
 
 				if (pw.equals(user.getElementsByTagName("password").item(0).getTextContent())) {
 					// Get User object
 					for (User u : this.lUsers) {
 						if (u.getUsername().equals(name)) {
-							if(!this.alreadyConnected(u)){
+							if (!this.alreadyConnected(u)) {
 								System.out.println("User found");
 								addUserConnected(u);
 								return u;
@@ -320,7 +317,6 @@ public class Server {
 		}
 	}
 
-
 	public synchronized void editTask(Task t) {
 
 		try {
@@ -333,11 +329,9 @@ public class Server {
 			tEdit.setState(t.getState());
 			tEdit.setTitle(t.getTitle());
 
-		
 			NodeList nodelist = docTasks.getElementsByTagName("task");
-		
-			Element task = (Element)nodelist.item(t.getId());
-		
+
+			Element task = (Element) nodelist.item(t.getId());
 
 			// title element
 			task.getChildNodes().item(0).setTextContent(t.getTitle());
@@ -379,7 +373,6 @@ public class Server {
 		}
 
 	}
-
 
 	public synchronized void removeTask(int t) {
 		try {
