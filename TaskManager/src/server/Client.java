@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -35,20 +36,16 @@ public final class Client {
 	private  ObjectInputStream oiStream;
 	private  ObjectOutputStream ooStream;
 	private Socket clientSocket;
-	
+
 	public static Client getInstance() {
 		return clientInstance;
 	}
 
 	private Client() {
 
-		
+
 		try {
-			clientSocket = new Socket("localhost", 6789);
-			inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			outToServer = new DataOutputStream(clientSocket.getOutputStream());
-			oiStream = new ObjectInputStream(clientSocket.getInputStream());
-			ooStream = new ObjectOutputStream(clientSocket.getOutputStream());
+			this.initConnection();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,7 +68,7 @@ public final class Client {
 	}
 
 	public boolean connect(String name, String pw) {
-		
+
 		try {
 			outToServer.writeBytes("connect "+name+" "+ pw +"\n");
 			outToServer.flush();
@@ -80,7 +77,7 @@ public final class Client {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		if(this.userSession == null){
 			return false;
 		}
@@ -101,7 +98,7 @@ public final class Client {
 			e.printStackTrace();
 		}
 	}
-	
+
 
 	public String signUp(String username, String pw){
 		try {
@@ -122,7 +119,7 @@ public final class Client {
 			e.printStackTrace();
 		}
 		try {
-			
+
 			outToServer.writeBytes("signUp "+username+" "+pw+"\n");
 			return inFromServer.readLine();
 		} catch (IOException e) {
@@ -130,10 +127,10 @@ public final class Client {
 			e.printStackTrace();
 		}
 		return "Server error";
-		
+
 	}
-	
-	
+
+
 	public User getUserFromUsername(String username) {
 		for (User u : this.getObservableListUsers()) {
 			if (u.getUsername().equals(username))
@@ -191,13 +188,33 @@ public final class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		this.getTasks();
+	}
+
+	private void initConnection() throws UnknownHostException, IOException{
+
+		clientSocket = new Socket("localhost", 6789);
+		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		outToServer = new DataOutputStream(clientSocket.getOutputStream());
+		oiStream = new ObjectInputStream(clientSocket.getInputStream());
+		ooStream = new ObjectOutputStream(clientSocket.getOutputStream());
+
+
 	}
 
 	public void disconnect() {
 		try {
-			clientSocket.close();
+			
+			this.userSession = null;
+			outToServer.writeBytes("disconnect\n");
+			this.clientSocket.close();
+			try {
+				this.initConnection();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

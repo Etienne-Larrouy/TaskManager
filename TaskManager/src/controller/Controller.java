@@ -19,6 +19,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import server.Client;
@@ -41,7 +43,13 @@ public class Controller {
 	private Button TaskManager_register;
 
 	@FXML
-	public void handleConnect(ActionEvent event) {
+	public void handleConnectKeyPressed(KeyEvent event) {
+		if (event.getCode() == KeyCode.ENTER) {
+			this.connect();
+		}
+	}
+
+	private void connect(){
 		if (TaskManager_username.getText().isEmpty())
 			statusbar.setText("Error username is empty");
 		else if (TaskManager_password.getText().isEmpty())
@@ -84,6 +92,10 @@ public class Controller {
 			}
 
 		}
+	}
+	@FXML
+	public void handleConnect(ActionEvent event) {
+		this.connect();
 	}
 
 	@FXML

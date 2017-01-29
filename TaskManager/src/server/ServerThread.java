@@ -41,11 +41,15 @@ public class ServerThread implements Runnable{
 		// TODO Auto-generated method stub
 		String clientSentence;
 		try {
-			while(true){
+			while(!connectionSocket.isClosed()){
 				clientSentence = inFromClient.readLine();
 				System.out.println("Recu : " + clientSentence);
 				String[] parts = clientSentence.split(" ");
 				switch(parts[0]){
+				case "disconnect":
+					System.out.println("Fin du client");
+					connectionSocket.close();
+					break;
 				case "removeTask":
 					s.removeTask(Integer.parseInt(parts[1]));
 					break;

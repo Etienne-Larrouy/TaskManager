@@ -1,10 +1,9 @@
- package controller;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,7 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -61,7 +59,6 @@ public class ControllerApp implements Initializable {
 	@FXML
 	private MenuButton App_Options;
 
-
 	@FXML
 	private MenuItem App_Disconnection;
 
@@ -94,7 +91,6 @@ public class ControllerApp implements Initializable {
 
 		EventHandler<ActionEvent> action = menuItemAction();
 
-		
 		App_Disconnection = new MenuItem("Disconnection");
 		App_About = new MenuItem("About");
 
@@ -103,7 +99,7 @@ public class ControllerApp implements Initializable {
 
 		App_Disconnection.setOnAction(action);
 		App_About.setOnAction(action);
-		
+
 		App_printButton.setText("Print");
 
 		int id = 0;
@@ -151,7 +147,12 @@ public class ControllerApp implements Initializable {
 				MenuItem mItem = (MenuItem) event.getSource();
 				switch (mItem.getText()) {
 				case "Disconnection":
-					System.out.println("Disconnection");
+					try {
+						handleDisconnect();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					break;
 				case "About":
 					System.out.println("About");
@@ -165,10 +166,20 @@ public class ControllerApp implements Initializable {
 			}
 		};
 	}
-	
-	@FXML
-	public void handleDisconnect(ActionEvent event) throws IOException {
+
+	public void handleDisconnect() throws IOException {
 		Client.getInstance().disconnect();
+
+		Stage stage = null;
+		Parent root = null;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/TaskManager.fxml"));
+
+		stage = (Stage) App_flowPane.getScene().getWindow();
+
+		root = (Parent) loader.load();
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	@FXML
