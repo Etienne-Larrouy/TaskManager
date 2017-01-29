@@ -16,6 +16,8 @@ import javax.xml.transform.TransformerException;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import model.Task;
 import model.User;
 
@@ -45,8 +47,12 @@ public final class Client {
 		try {
 			this.initConnection();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("Server Error");
+			alert.setHeaderText("No server found");
+			alert.setContentText("Cannot connect, server seems to be unavailable.\nTry to start the server before to try to connect or register.");
+
+			alert.showAndWait();
 		}
 
 	}
@@ -65,13 +71,13 @@ public final class Client {
 
 	}
 
-	public boolean connect(String name, String pw) {
+	public boolean connect(String name, String pw) throws IOException {
 
 		try {
 			outToServer.writeBytes("connect " + name + " " + pw + "\n");
 			outToServer.flush();
 			this.userSession = (User) oiStream.readObject();
-		} catch (IOException | ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

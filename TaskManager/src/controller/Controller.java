@@ -79,8 +79,8 @@ public class Controller {
 					statusbar.setText("Wrong username, password or user already connected elsewhere");
 				}
 
-			} catch (NoSuchAlgorithmException | IOException e) {
-				e.printStackTrace();
+			} catch (NoSuchAlgorithmException | IOException | NullPointerException e) {
+				System.out.println("No server");
 			}
 
 		}

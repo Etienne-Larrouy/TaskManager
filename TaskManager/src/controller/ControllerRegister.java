@@ -10,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -32,6 +34,14 @@ public class ControllerRegister {
 	private Button Register_register;
 
 	@FXML
+	public void handleKeyPressed(KeyEvent event) {
+		if(event.getCode() == KeyCode.ENTER){
+			this.handleSignUp(new ActionEvent());
+		}
+	}
+
+
+	@FXML
 	public void handleSignUp(ActionEvent event) {
 
 		try {
@@ -51,21 +61,20 @@ public class ControllerRegister {
 				if ((message = Client.getInstance().signUp(Register_username.getText(), Register_password.getText()))
 						.equals("registered")) {
 
-					if (event.getSource() == Register_register) {
-						Stage stage = null;
-						Parent root = null;
-						stage = (Stage) Register_register.getScene().getWindow();
-						root = FXMLLoader.load(getClass().getResource("../view/TaskManager.fxml"));
-						Scene scene = new Scene(root);
-						stage.setScene(scene);
-						stage.show();
-					}
+					Stage stage = null;
+					Parent root = null;
+					stage = (Stage) Register_register.getScene().getWindow();
+					root = FXMLLoader.load(getClass().getResource("../view/TaskManager.fxml"));
+					Scene scene = new Scene(root);
+					stage.setScene(scene);
+					stage.show();
+
 				} else {
 					Register_statusbar.setText("Error : " + message);
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (IOException | NullPointerException e) {
+			System.out.println("No server");
 		}
 	}
 
