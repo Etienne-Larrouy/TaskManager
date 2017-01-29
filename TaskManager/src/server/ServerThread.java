@@ -11,6 +11,7 @@ import java.net.Socket;
 import javax.xml.transform.TransformerException;
 
 import model.Task;
+import model.User;
 
 public class ServerThread implements Runnable{
 	private BufferedReader inFromClient = null;
@@ -20,6 +21,7 @@ public class ServerThread implements Runnable{
 	private ObjectInputStream objectInput = null;
 	private Socket connectionSocket;
 	private Server s;
+	private User u;
 
 	public ServerThread(Socket connectionSocket, Server s) {
 		this.s = s;
@@ -48,6 +50,7 @@ public class ServerThread implements Runnable{
 				switch(parts[0]){
 				case "disconnect":
 					System.out.println("Fin du client");
+					this.s.disconnectUser(u);
 					connectionSocket.close();
 					break;
 				case "removeTask":
@@ -87,7 +90,8 @@ public class ServerThread implements Runnable{
 					break;
 				case "connect":
 					System.out.println("Connect");
-					objectOutput.writeObject(s.connect(parts[1], parts[2]));
+					u = s.connect(parts[1], parts[2]);
+					objectOutput.writeObject(u);
 					objectOutput.flush();
 					break;
 				default:
@@ -101,6 +105,13 @@ public class ServerThread implements Runnable{
 
 		} catch (IOException e) {
 			System.out.println("Client fermé");
+			this.s.disconnectUser(u);
+			try {
+				connectionSocket.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 
 

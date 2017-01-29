@@ -30,6 +30,8 @@ public class Server {
 	private List<Task> lTasks = new ArrayList<Task>();
 
 	private List<User> lUsers = new ArrayList<User>();
+	
+	private List<User> lUsersConnected = new ArrayList<User>();
 
 	private DocumentBuilderFactory docFactory;
 	private DocumentBuilder docBuilder;
@@ -54,7 +56,18 @@ public class Server {
 		this.loadTasks();
 
 	}
-
+	
+	public void addUserConnected(User u){
+		this.lUsersConnected.add(u);
+	}
+	
+	public void disconnectUser(User u){
+		this.lUsersConnected.remove(u) ;
+	}
+	
+	public boolean alreadyConnected(User u){
+		return this.lUsersConnected.contains(u);
+	}
 
 	public List<Task> getlTasks(String username) {
 		List<Task> listTasks = new ArrayList<Task>();
@@ -260,8 +273,11 @@ public class Server {
 					// Get User object
 					for (User u : this.lUsers) {
 						if (u.getUsername().equals(name)) {
-							System.out.println("User found");
-							return u;
+							if(!this.alreadyConnected(u)){
+								System.out.println("User found");
+								addUserConnected(u);
+								return u;
+							}
 						}
 					}
 				}
@@ -270,7 +286,7 @@ public class Server {
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("No user found");
+		System.out.println("Impossible to connect");
 		return null;
 	}
 

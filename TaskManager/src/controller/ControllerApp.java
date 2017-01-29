@@ -30,7 +30,6 @@ import model.Task;
 import server.Client;
 
 public class ControllerApp implements Initializable {
-	private Client c;
 
 	@FXML
 	private FlowPane App_flowPane;

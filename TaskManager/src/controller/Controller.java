@@ -84,7 +84,7 @@ public class Controller {
 					stage.show();
 				}
 				else{
-					statusbar.setText("Wrong username or password");
+					statusbar.setText("Wrong username, password or user already connected elsewhere");
 				}
 
 			} catch (NoSuchAlgorithmException | IOException e) {
