@@ -127,8 +127,9 @@ public class Server {
 			String creationDate = task.getElementsByTagName("creationDate").item(0).getTextContent();
 			String state = task.getElementsByTagName("state").item(0).getTextContent();
 			String priority = task.getElementsByTagName("priority").item(0).getTextContent();
+			int id = Integer.parseInt(task.getElementsByTagName("id").item(0).getTextContent());
 			this.lTasks.add(new Task(title, desc, this.getUserFromUsername(author), this.getUserFromUsername(performer),
-					priority, deadline, i, state, creationDate));
+					priority, deadline, id, state, creationDate));
 		}
 	}
 
@@ -192,10 +193,15 @@ public class Server {
 		priority.appendChild(docTasks.createTextNode(t.getPriority()));
 		task.appendChild(priority);
 
-		// priority element
+		// description element
 		Element description = docTasks.createElement("description");
 		description.appendChild(docTasks.createTextNode(t.getDescription()));
 		task.appendChild(description);
+		
+		// id element
+		Element id = docTasks.createElement("id");
+		id.appendChild(docTasks.createTextNode(Integer.toString(t.getId())));
+		task.appendChild(id);
 
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -205,7 +211,8 @@ public class Server {
 		DOMSource source = new DOMSource(docTasks);
 		StreamResult result = new StreamResult(new File("BD/tasks.xml"));
 		transformer.transform(source, result);
-
+		System.out.println(this.lTasks.size());
+		t.setId(this.lTasks.size());
 		this.lTasks.add(t);
 	}
 
@@ -318,9 +325,14 @@ public class Server {
 	}
 
 	public synchronized void editTask(Task t) {
-
+		Task tEdit = null;
 		try {
-			Task tEdit = this.lTasks.get(t.getId());
+			for(Task task : this.lTasks){
+				if(t.getId() == task.getId()){
+					tEdit = task;
+				}
+			}
+	
 			tEdit.setCreationDate(t.getCreationDate());
 			tEdit.setDeadLine(t.getDeadline());
 			tEdit.setDescription(t.getDescription());
@@ -328,10 +340,20 @@ public class Server {
 			tEdit.setPriority(t.getPriority());
 			tEdit.setState(t.getState());
 			tEdit.setTitle(t.getTitle());
+			
 
 			NodeList nodelist = docTasks.getElementsByTagName("task");
+			Element task = null;
+			
+			for (int i = 0; i < nodelist.getLength(); i++) {
+				Element user = (Element) nodelist.item(i);
+				// return task
+				if (user.getElementsByTagName("id").item(0).getTextContent().equals(Integer.toString(tEdit.getId()))) {
+					task = (Element) nodelist.item(i);
+				}
+			}
 
-			Element task = (Element) nodelist.item(t.getId());
+			
 
 			// title element
 			task.getChildNodes().item(0).setTextContent(t.getTitle());
@@ -355,7 +377,10 @@ public class Server {
 			task.getChildNodes().item(6).setTextContent(t.getPriority());
 
 			// description element
-			task.getChildNodes().item(6).setTextContent(t.getDescription());
+			task.getChildNodes().item(7).setTextContent(t.getDescription());
+			
+			// id element
+			task.getChildNodes().item(8).setTextContent(Integer.toString(t.getId()));
 
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -381,12 +406,20 @@ public class Server {
 
 			Transformer transformer = transformerFactory.newTransformer();
 
-			this.lTasks.remove(t);
+			int id = 0;
+			for(Task task : this.lTasks){
+				if(t == task.getId()){
+					this.lTasks.remove(task);
+					break;
+				}
+				id++;
+			}
 
+		
 			Element rootElement = null;
 			rootElement = (Element) docTasks.getElementsByTagName("tasks").item(0);
 
-			Node task = rootElement.getChildNodes().item(t);
+			Node task = rootElement.getChildNodes().item(id);
 
 			rootElement.removeChild(task);
 

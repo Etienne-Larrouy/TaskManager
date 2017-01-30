@@ -45,10 +45,12 @@ public class Task implements Serializable {
 		this.setCreationDate(creationDate);
 		this.owner = owner;
 		this.setPerformer(performer);
-		;
 		this.id = id;
 	}
 
+	public void setId(int id){
+		this.id = id;
+	}
 	/* Getters and setters */
 
 	// Owner

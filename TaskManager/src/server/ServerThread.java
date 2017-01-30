@@ -64,7 +64,15 @@ public class ServerThread implements Runnable {
 					break;
 				case "editTask":
 					try {
-						s.editTask((Task) objectInput.readObject());
+						try {
+							Thread.sleep(500);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						 Object o = objectInput.readObject();
+						 System.out.println(o.toString());
+						s.editTask((Task) o);
 					} catch (ClassNotFoundException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();

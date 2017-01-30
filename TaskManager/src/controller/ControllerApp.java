@@ -104,7 +104,6 @@ public class ControllerApp implements Initializable {
 
 		App_printButton.setText("Print");
 
-		int id = 0;
 		// Add existing tasks
 		for (Task t : Client.getInstance().getObservableListTasks()) {
 
@@ -119,7 +118,7 @@ public class ControllerApp implements Initializable {
 				((Label) tache.getChildren().get(3)).setText(t.getDeadline());
 				((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
 				((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
-				((Text) tache.getChildren().get(6)).setText(Integer.toString(id));
+				((Text) tache.getChildren().get(6)).setText(Integer.toString(t.getId()));
 
 				// Bind label to model
 				t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
@@ -137,17 +136,16 @@ public class ControllerApp implements Initializable {
 				e.printStackTrace();
 			}
 
-			id++;
 		}
 
 		Client.getInstance().getObservableListTasks().addListener((ListChangeListener<Task>) change -> {
 			if (App_flowPane != null) {
 				App_flowPane.getChildren().remove(0, App_flowPane.getChildren().size());
-				
-				int id2 = 0;
+				System.out.println("remove");
+			
 				// Add existing tasks
 				for (Task t : Client.getInstance().getObservableListTasks()) {
-
+					System.out.println(t.getId());
 					try {
 
 						GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
@@ -159,7 +157,7 @@ public class ControllerApp implements Initializable {
 						((Label) tache.getChildren().get(3)).setText(t.getDeadline());
 						((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
 						((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
-						((Text) tache.getChildren().get(6)).setText(Integer.toString(id2));
+						((Text) tache.getChildren().get(6)).setText(Integer.toString(t.getId()));
 
 						// Bind label to model
 						t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
@@ -177,8 +175,6 @@ public class ControllerApp implements Initializable {
 						e.printStackTrace();
 					}
 				}
-
-					id2++;
 			}
 		});
 
@@ -230,7 +226,7 @@ public class ControllerApp implements Initializable {
 	public void handleSearch(ActionEvent event) throws IOException {
 		App_flowPane.getChildren().remove(0, App_flowPane.getChildren().size());
 
-		int id = 0;
+	
 		for (Task t : Client.getInstance().getObservableListTasks()) {
 			if(t.getState().contains(App_search.getText()) || t.getPriority().contains(App_search.getText()) || t.getPerformer().getUsername().contains(App_search.getText()) || t.getDescription().contains(App_search.getText()) || t.getTitle().contains(App_search.getText()) || App_search.getText().isEmpty()){
 				GridPane tache = FXMLLoader.load(getClass().getResource("../view/PreviewTask.fxml"));
@@ -242,7 +238,7 @@ public class ControllerApp implements Initializable {
 				((Label) tache.getChildren().get(3)).setText(t.getDeadline());
 				((Label) tache.getChildren().get(4)).setText(t.getPerformer().getUsername());
 				((Label) tache.getChildren().get(5)).setText(t.getCreationDate());
-				((Text) tache.getChildren().get(6)).setText(Integer.toString(id));
+				((Text) tache.getChildren().get(6)).setText(Integer.toString(t.getId()));
 
 				// Bind label to model
 				t.getTitleProperty().bindBidirectional(((Label) tache.getChildren().get(0)).textProperty());
@@ -257,7 +253,7 @@ public class ControllerApp implements Initializable {
 				// Add task to FlowPanel
 				App_flowPane.getChildren().add(tache);
 			}
-			id++;
+			
 		}
 
 	}

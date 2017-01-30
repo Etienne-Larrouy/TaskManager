@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Task;
 import server.Client;
 
 public class ControllerPreviewTask implements Initializable {
@@ -25,9 +26,14 @@ public class ControllerPreviewTask implements Initializable {
 		Stage stage = null;
 		Parent root = null;
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Task.fxml"));
-
-		ControllerTask controller = new ControllerTask(
-				s.getObservableListTasks().get(Integer.parseInt(TaskPreview_id.getText())));
+		Task actual = null;
+		for(Task t : s.getObservableListTasks()){
+			if(t.getId() == Integer.parseInt(TaskPreview_id.getText())){
+				actual = t;
+				break;
+			}
+		}
+		ControllerTask controller = new ControllerTask(actual);
 		// Set it in the FXMLLoader
 		loader.setController(controller);
 
