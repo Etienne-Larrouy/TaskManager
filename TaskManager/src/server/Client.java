@@ -50,7 +50,8 @@ public final class Client {
 			Alert alert = new Alert(AlertType.WARNING);
 			alert.setTitle("Server Error");
 			alert.setHeaderText("No server found");
-			alert.setContentText("Cannot connect, server seems to be unavailable.\nTry to start the server before to try to connect or register.");
+			alert.setContentText(
+					"Cannot connect, server seems to be unavailable.\nTry to start the server before to try to connect or register.");
 
 			alert.showAndWait();
 		}
@@ -146,6 +147,7 @@ public final class Client {
 		try {
 			outToServer.writeBytes("addTask\n");
 			ooStream.writeObject(t);
+			ooStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,8 +178,11 @@ public final class Client {
 
 	public void editTask(Task t) {
 		try {
+
 			outToServer.writeBytes("editTask\n");
 			ooStream.writeObject(t);
+			ooStream.flush();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

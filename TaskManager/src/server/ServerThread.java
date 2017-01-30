@@ -58,18 +58,14 @@ public class ServerThread implements Runnable {
 					break;
 				case "getUsers":
 					objectOutput.writeObject(s.getlUsers());
+					objectOutput.flush();
 					break;
 				case "getTasks":
 					objectOutput.writeObject(s.getlTasks(parts[1]));
+					objectOutput.flush();
 					break;
 				case "editTask":
 					try {
-						try {
-							Thread.sleep(500);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
 						 Object o = objectInput.readObject();
 						 System.out.println(o.toString());
 						s.editTask((Task) o);
