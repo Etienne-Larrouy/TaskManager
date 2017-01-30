@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.print.PrinterJob;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -103,6 +104,7 @@ public class ControllerApp implements Initializable {
 		App_About.setOnAction(action);
 
 		App_printButton.setText("Print");
+		App_printButton.setAlignment(Pos.CENTER);
 
 		// Add existing tasks
 		for (Task t : Client.getInstance().getObservableListTasks()) {
