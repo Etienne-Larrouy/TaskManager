@@ -12,13 +12,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Task;
 
 public class ControllerTask implements Initializable {
 
 	@FXML
-	private TextArea Task_description;
+	private Text Task_description;
 
 	@FXML
 	private Label Task_author;
