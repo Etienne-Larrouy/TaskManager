@@ -34,7 +34,7 @@
             <Insets top="25.0" />
          </padding>
       </Label>
-      <Label text="Username :" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Label text="Password :" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="30.0" />
          </font>
@@ -42,7 +42,7 @@
             <Insets right="235.0" />
          </GridPane.margin>
       </Label>
-      <Label prefHeight="92.0" prefWidth="146.0" text="Password :" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Label prefHeight="54.0" prefWidth="152.0" text="Username :" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="30.0" />
          </font>

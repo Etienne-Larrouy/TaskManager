@@ -23,32 +23,36 @@
       <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="495.0" minWidth="10.0" prefWidth="135.0" />
   </columnConstraints>
   <rowConstraints>
+    <RowConstraints />
     <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="29.0" valignment="TOP" vgrow="SOMETIMES" />
     <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="65.0" valignment="TOP" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="383.0" minHeight="10.0" prefHeight="383.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="383.0" minHeight="10.0" prefHeight="383.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label graphicTextGap="0.0" text="Task Manager" GridPane.columnIndex="1">
+      <Label graphicTextGap="0.0" text="Task Manager" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font name="Palatino Linotype Italic" size="20.0" />
          </font>
       </Label>
-      <Line endX="200.0" startX="1100.0" GridPane.columnIndex="1">
+      <Line endX="200.0" startX="1100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets top="30.0" />
          </GridPane.margin>
       </Line>
-      <TextField fx:id="App_search" onAction="#handleSearch" promptText="Search" GridPane.rowIndex="1">
+      <TextField fx:id="App_search" onAction="#handleSearch" promptText="Search" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="10.0" top="20.0" />
          </GridPane.margin>
       </TextField>
-      <ScrollPane GridPane.columnSpan="3" GridPane.rowIndex="2">
+      <ScrollPane GridPane.columnSpan="3" GridPane.rowIndex="3">
          <content>
-            <FlowPane fx:id="App_flowPane" hgap="10.0" maxHeight="510.0" maxWidth="780.0" prefHeight="510.0" prefWidth="744.0" vgap="5.0" />
+            <FlowPane fx:id="App_flowPane" hgap="40.0" maxHeight="510.0" maxWidth="780.0" prefHeight="382.0" prefWidth="744.0" vgap="20.0">
+               <padding>
+                  <Insets left="18.0" top="15.0" />
+               </padding></FlowPane>
          </content>
       </ScrollPane>
-      <ImageView fx:id="App_add" fitHeight="56.0" fitWidth="56.0" onMouseClicked="#createNewTask" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
+      <ImageView fx:id="App_add" fitHeight="56.0" fitWidth="56.0" onMouseClicked="#createNewTask" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <image>
             <Image url="@../image/logo_ajouter.png" />
          </image>
@@ -56,7 +60,7 @@
             <Insets right="10.0" top="5.0" />
          </GridPane.margin>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <image>
             <Image url="@../image/Logoensim.gif" />
          </image>
@@ -64,13 +68,13 @@
             <Insets top="5.0" />
          </GridPane.margin>
       </ImageView>
-      <MenuButton fx:id="App_Options" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Options">
+      <MenuButton fx:id="App_Options" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Options" GridPane.rowIndex="1">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
         </items>
       </MenuButton>
-      <Button fx:id="App_printButton" mnemonicParsing="false" onAction="#handlePrint" text="Button" GridPane.valignment="CENTER">
+      <Button fx:id="App_printButton" mnemonicParsing="false" onAction="#handlePrint" text="Button" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets left="100.0" />
          </GridPane.margin>

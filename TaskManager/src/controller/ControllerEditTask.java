@@ -22,6 +22,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Task;
 import model.User;
@@ -65,6 +66,7 @@ public class ControllerEditTask implements Initializable {
 
 	Task currentTask;
 	Stage stage;
+	private Client s;
 
 	public ControllerEditTask(Task t, Stage s) {
 		this.currentTask = t;
@@ -116,6 +118,27 @@ public class ControllerEditTask implements Initializable {
 		Client.getInstance().removeTask(currentTask);
 		stage = (Stage) EditTask_description.getScene().getWindow();
 		stage.close();
+	}
+	
+	
+	@FXML
+	public void handleReturn(MouseEvent event) throws IOException {
+	
+		Parent root = null;
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/Task.fxml"));
+		
+		
+		
+
+		ControllerTask controller = new ControllerTask(currentTask);
+		// Set it in the FXMLLoader
+		loader.setController(controller);
+		
+		root = (Parent) loader.load();
+		Scene scene = new Scene(root);
+		
+		this.stage.setScene(scene);
+		this.stage.show();
 	}
 
 	@Override

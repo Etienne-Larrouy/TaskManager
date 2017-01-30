@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -56,7 +56,11 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextArea fx:id="Task_description" editable="false" layoutX="123.0" layoutY="33.0" prefHeight="79.0" prefWidth="494.0" />
+            <ScrollPane layoutX="134.0" layoutY="37.0" prefHeight="76.0" prefWidth="422.0">
+               <content>
+                  <Text fx:id="Task_description" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="417.13671875" />
+               </content>
+            </ScrollPane>
             <Text layoutX="30.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author :">
                <font>
                   <Font size="15.0" />
