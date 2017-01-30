@@ -9,9 +9,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
@@ -80,7 +82,13 @@ public class Controller {
 				}
 
 			} catch (NoSuchAlgorithmException | IOException | NullPointerException e) {
-				System.out.println("No server");
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Server Error");
+				alert.setHeaderText("No server found");
+				alert.setContentText(
+						"Cannot connect, server seems to be unavailable.\nTry to start the server before to try to connect or register.");
+
+				alert.showAndWait();
 			}
 
 		}
