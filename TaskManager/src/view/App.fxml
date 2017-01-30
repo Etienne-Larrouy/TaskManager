@@ -45,7 +45,7 @@
       </TextField>
       <ScrollPane GridPane.columnSpan="3" GridPane.rowIndex="2">
          <content>
-            <FlowPane fx:id="App_flowPane" maxHeight="510.0" maxWidth="780.0" prefHeight="510.0" prefWidth="744.0" />
+            <FlowPane fx:id="App_flowPane" hgap="10.0" maxHeight="510.0" maxWidth="780.0" prefHeight="510.0" prefWidth="744.0" vgap="5.0" />
          </content>
       </ScrollPane>
       <ImageView fx:id="App_add" fitHeight="56.0" fitWidth="56.0" onMouseClicked="#createNewTask" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
