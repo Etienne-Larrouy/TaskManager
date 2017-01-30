@@ -186,6 +186,7 @@ public final class Client {
 	public void removeTask(Task currentTask) {
 		try {
 			outToServer.writeBytes("removeTask " + currentTask.getId() + "\n");
+			this.getObservableListTasks().remove(currentTask);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
