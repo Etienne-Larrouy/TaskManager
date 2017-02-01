@@ -52,12 +52,12 @@
                </padding></FlowPane>
          </content>
       </ScrollPane>
-      <ImageView fx:id="App_add" fitHeight="56.0" fitWidth="56.0" onMouseClicked="#createNewTask" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
+      <ImageView fx:id="App_add" fitHeight="48.0" fitWidth="48.0" onMouseClicked="#createNewTask" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <image>
             <Image url="@../image/logo_ajouter.png" />
          </image>
          <GridPane.margin>
-            <Insets right="10.0" top="5.0" />
+            <Insets right="10.0" top="10.0" />
          </GridPane.margin>
       </ImageView>
       <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
