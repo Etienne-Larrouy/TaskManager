@@ -181,6 +181,7 @@ public class ControllerApp implements Initializable {
 		});
 
 	}
+	
 
 	private EventHandler<ActionEvent> menuItemAction() {
 		return new EventHandler<ActionEvent>() {
@@ -224,6 +225,18 @@ public class ControllerApp implements Initializable {
 		stage.show();
 	}
 
+	@FXML
+	public void handleRefresh(ActionEvent event) throws IOException{
+		Stage stage = null;
+		Parent root = null;
+		stage = (Stage) App_flowPane.getScene().getWindow();
+		root = FXMLLoader.load(getClass().getResource("../view/App.fxml"));
+
+		Scene scene = new Scene(root);
+
+		stage.setScene(scene);
+		stage.show();
+	}
 	@FXML
 	public void handleSearch(ActionEvent event) throws IOException {
 		App_flowPane.getChildren().remove(0, App_flowPane.getChildren().size());
