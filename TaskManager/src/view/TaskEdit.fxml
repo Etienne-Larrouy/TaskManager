@@ -97,14 +97,14 @@
                </font>
             </Text>
             <ComboBox fx:id="EditTask_performer" layoutX="110.0" layoutY="345.0" prefWidth="150.0" />
-            <Button fx:id="Task_validateChanges" layoutX="431.0" layoutY="176.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="44.0" prefWidth="239.0" text="Save" textFill="#1bb250">
+            <Button fx:id="Task_validateChanges" layoutX="564.0" layoutY="314.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="51.0" prefWidth="88.0" text="Save" textFill="#1bb250">
                <font>
                   <Font size="24.0" />
                </font>
             </Button>
-            <ImageView fx:id="NewTask_return" fitHeight="65.0" fitWidth="110.0" layoutX="670.0" layoutY="314.0" onMouseClicked="#handleReturn" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="NewTask_return" fitHeight="51.0" fitWidth="53.0" layoutX="690.0" layoutY="314.0" onMouseClicked="#handleReturn" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../image/retour.gif" />
+                  <Image url="@../image/logo_retour.png" />
                </image>
             </ImageView>
             <Button fx:id="handleRemove" disable="true" layoutX="432.0" layoutY="257.0" mnemonicParsing="false" onAction="#handleRemove" prefHeight="51.0" prefWidth="239.0" text="Remove" visible="false" />
