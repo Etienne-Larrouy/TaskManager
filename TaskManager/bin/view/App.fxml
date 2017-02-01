@@ -24,21 +24,16 @@
   </columnConstraints>
   <rowConstraints>
     <RowConstraints />
-    <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="29.0" valignment="TOP" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="65.0" valignment="TOP" vgrow="SOMETIMES" />
-      <RowConstraints maxHeight="383.0" minHeight="10.0" prefHeight="383.0" vgrow="SOMETIMES" />
+    <RowConstraints />
+      <RowConstraints maxHeight="158.0" minHeight="0.0" prefHeight="63.0" valignment="TOP" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="384.0" minHeight="10.0" prefHeight="384.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label graphicTextGap="0.0" text="Task Manager" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Label graphicTextGap="0.0" text="Task Manager" GridPane.columnIndex="1">
          <font>
             <Font name="Palatino Linotype Italic" size="20.0" />
          </font>
       </Label>
-      <Line endX="200.0" startX="1100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <GridPane.margin>
-            <Insets top="30.0" />
-         </GridPane.margin>
-      </Line>
       <TextField fx:id="App_search" onAction="#handleSearch" promptText="Search" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="10.0" top="20.0" />
@@ -68,7 +63,7 @@
             <Insets top="5.0" />
          </GridPane.margin>
       </ImageView>
-      <MenuButton fx:id="App_Options" mnemonicParsing="false" prefHeight="0.0" prefWidth="130.0" text="Options" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
+      <MenuButton fx:id="App_Options" mnemonicParsing="false" prefHeight="0.0" prefWidth="130.0" text="Options" GridPane.columnIndex="2" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
           <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -79,6 +74,10 @@
             <Insets />
          </GridPane.margin>
       </Button>
-      <Button fx:id="App_printButton1" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="30.0" prefWidth="90.0" text="Refresh" GridPane.columnIndex="1" />
+      <Button fx:id="App_printButton1" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="30.0" prefWidth="90.0" text="Refresh">
+         <GridPane.margin>
+            <Insets left="100.0" />
+         </GridPane.margin></Button>
+      <Line startX="900.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
    </children>
 </GridPane>
